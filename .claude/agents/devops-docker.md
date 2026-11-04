@@ -1,0 +1,1 @@
+C:/Deivides/projects/finanpy/agents/devops-docker.md
