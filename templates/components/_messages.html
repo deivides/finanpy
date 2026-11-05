@@ -1,0 +1,19 @@
+{% comment %}
+  Mensagens do framework messages (PRD 9.9). A cor vem de message.level_tag
+  (ignora extra_tags): success, error, warning e info/debug.
+{% endcomment %}
+{% if messages %}
+  <div class="mb-6 space-y-3">
+    {% for message in messages %}
+      {% if message.level_tag == 'success' %}
+        <div class="rounded-xl bg-emerald-500/10 p-3 text-sm text-emerald-300 ring-1 ring-emerald-500/30" role="status">{{ message }}</div>
+      {% elif message.level_tag == 'error' %}
+        <div class="rounded-xl bg-rose-500/10 p-3 text-sm text-rose-300 ring-1 ring-rose-500/30" role="alert">{{ message }}</div>
+      {% elif message.level_tag == 'warning' %}
+        <div class="rounded-xl bg-amber-500/10 p-3 text-sm text-amber-300 ring-1 ring-amber-500/30" role="alert">{{ message }}</div>
+      {% else %}
+        <div class="rounded-xl bg-cyan-500/10 p-3 text-sm text-cyan-300 ring-1 ring-cyan-500/30" role="status">{{ message }}</div>
+      {% endif %}
+    {% endfor %}
+  </div>
+{% endif %}

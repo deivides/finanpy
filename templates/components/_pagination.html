@@ -1,0 +1,21 @@
+{% comment %}
+  Paginação (PRD 9.9). Usa page_obj/is_paginated do ListView. {% querystring %} parte de
+  request.GET, troca só o parâmetro "page" e mantém os filtros (ex.: ?month=2026-01&type=income).
+{% endcomment %}
+{% if is_paginated and page_obj.paginator.num_pages > 1 %}
+  <nav class="mt-6 flex items-center justify-between gap-3" aria-label="Paginação">
+    {% if page_obj.has_previous %}
+      <a href="{% querystring page=page_obj.previous_page_number %}" class="btn-secondary" rel="prev">Anterior</a>
+    {% else %}
+      <span class="btn-secondary pointer-events-none opacity-50" aria-disabled="true">Anterior</span>
+    {% endif %}
+
+    <p class="text-sm text-slate-400 tabular-nums" aria-current="page">Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</p>
+
+    {% if page_obj.has_next %}
+      <a href="{% querystring page=page_obj.next_page_number %}" class="btn-secondary" rel="next">Próxima</a>
+    {% else %}
+      <span class="btn-secondary pointer-events-none opacity-50" aria-disabled="true">Próxima</span>
+    {% endif %}
+  </nav>
+{% endif %}

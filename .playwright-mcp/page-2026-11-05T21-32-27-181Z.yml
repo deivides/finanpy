@@ -1,0 +1,36 @@
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - generic [ref=e4]:
+      - link "Finanpy" [ref=e5] [cursor=pointer]:
+        - /url: /
+      - navigation "Acesso" [ref=e6]:
+        - link "Entrar" [ref=e7] [cursor=pointer]:
+          - /url: ""
+        - link "Cadastre-se" [ref=e8] [cursor=pointer]:
+          - /url: ""
+  - main [ref=e9]:
+    - generic [ref=e11]:
+      - paragraph [ref=e12]: Finanças pessoais sem complicação
+      - heading "Suas finanças sob controle com o Finanpy" [level=1] [ref=e13]
+      - paragraph [ref=e14]: Cadastre suas contas, organize entradas e saídas por categoria e acompanhe o saldo do mês em um só lugar.
+      - generic [ref=e15]:
+        - link "Cadastre-se" [ref=e16] [cursor=pointer]:
+          - /url: ""
+        - link "Entrar" [ref=e17] [cursor=pointer]:
+          - /url: ""
+    - region [ref=e18]:
+      - heading "Tudo o que você precisa para organizar o seu dinheiro" [level=2] [ref=e19]
+      - generic [ref=e20]:
+        - article [ref=e21]:
+          - heading "Contas" [level=3] [ref=e25]
+          - paragraph [ref=e26]: Cadastre contas correntes, poupanças, carteiras e investimentos e veja o saldo de cada uma atualizado automaticamente.
+        - article [ref=e27]:
+          - heading "Categorias" [level=3] [ref=e32]
+          - paragraph [ref=e33]: Organize seus gastos e ganhos com categorias próprias de entrada e de saída, do jeito que fizer sentido para você.
+        - article [ref=e34]:
+          - heading "Transações" [level=3] [ref=e39]
+          - paragraph [ref=e40]: Registre entradas e saídas, filtre por período, conta ou categoria e entenda para onde vai o seu dinheiro.
+  - contentinfo [ref=e41]:
+    - generic [ref=e42]:
+      - generic [ref=e43]: Finanpy
+      - paragraph [ref=e44]: © 2026 Finanpy. Controle financeiro pessoal.

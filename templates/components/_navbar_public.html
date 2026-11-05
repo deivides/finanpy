@@ -1,0 +1,21 @@
+{% comment %}
+  Navbar da área pública (PRD 9.8). "Cadastre-se" usa btn-secondary para respeitar a regra de
+  um único btn-primary por tela: home, login e cadastro já têm o seu próprio botão primário.
+{% endcomment %}
+{% url 'home' as home_url %}
+<header class="sticky top-0 z-30 border-b border-slate-800 bg-slate-950/70 backdrop-blur">
+  <div class="mx-auto flex w-full max-w-7xl items-center justify-between gap-4 px-4 py-3 md:px-8">
+    <a href="{{ home_url }}" class="bg-gradient-to-r from-violet-400 to-cyan-400 bg-clip-text text-xl font-bold text-transparent md:text-2xl">Finanpy</a>
+    <nav class="flex items-center gap-2" aria-label="Acesso">
+      {% if user.is_authenticated %}
+        {% url 'dashboard' as dashboard_url %}
+        <a href="{{ dashboard_url }}" class="btn-secondary">Ir para o dashboard</a>
+      {% else %}
+        {% url 'login' as login_url %}
+        {% url 'signup' as signup_url %}
+        <a href="{{ login_url }}" class="btn-ghost">Entrar</a>
+        <a href="{{ signup_url }}" class="btn-secondary">Cadastre-se</a>
+      {% endif %}
+    </nav>
+  </div>
+</header>

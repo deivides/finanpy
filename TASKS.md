@@ -59,34 +59,34 @@
   - [X] 2.1.4 Definir `body` com `bg-slate-950 text-slate-100 font-['Inter'] antialiased min-h-screen`.
   - [X] 2.1.5 Adicionar bloco `<style type="text/tailwindcss">` com os componentes da seção 9.4.
   - [X] 2.1.6 Criar blocos `{% block title %}`, `{% block body %}` e `{% block content %}`.
-- [ ] **2.2 Layout autenticado (`templates/base_app.html`)**
-  - [ ] 2.2.1 Estender `base.html` e montar estrutura `flex` com sidebar + área de conteúdo.
-  - [ ] 2.2.2 Criar topbar mobile com logo e botão de abrir menu.
-  - [ ] 2.2.3 Incluir `_messages.html` no topo do conteúdo.
-  - [ ] 2.2.4 Envolver o conteúdo no container padrão (seção 9.7).
-- [ ] **2.3 Componentes (partials)**
-  - [ ] 2.3.1 `_sidebar.html`: logo em gradiente, links do menu e botão Sair (form POST com `csrf_token`).
-  - [ ] 2.3.2 Lógica de item ativo com `request.resolver_match.url_name`.
-  - [ ] 2.3.3 Script inline mínimo para abrir/fechar sidebar no mobile.
-  - [ ] 2.3.4 `_navbar_public.html`: logo, "Entrar" e "Cadastre-se" (ou "Ir para o dashboard" se autenticado).
-  - [ ] 2.3.5 `_messages.html`: renderizar `messages` com cores por `message.tags`.
-  - [ ] 2.3.6 `_form_field.html`: label, campo, help text e lista de erros.
-  - [ ] 2.3.7 `_empty_state.html`: recebe `text`, `button_label` e `button_url` via `{% include ... with %}`.
-  - [ ] 2.3.8 `_pagination.html`: anterior/próxima e página atual, preservando querystring de filtros.
-- [ ] **2.4 Mixin de formulários (`core/forms.py`)**
-  - [ ] 2.4.1 Criar `StyledFormMixin` aplicando `form-input` a todos os widgets.
-  - [ ] 2.4.2 Tratar `CheckboxInput` com classe própria (`h-4 w-4 accent-violet-500`).
-  - [ ] 2.4.3 Configurar `DateInput` com `type='date'` onde aplicável (nos forms dos apps).
-- [ ] **2.5 Página inicial pública**
-  - [ ] 2.5.1 Criar `HomeView(TemplateView)` em `core/views.py`.
-  - [ ] 2.5.2 Criar `templates/home.html` estendendo `base.html` com navbar pública.
-  - [ ] 2.5.3 Seção hero: título com gradiente de texto, subtítulo e botões "Cadastre-se" e "Entrar".
-  - [ ] 2.5.4 Seção de destaques com 3 cards (Contas, Categorias, Transações) em grid responsivo.
-  - [ ] 2.5.5 Rodapé simples com nome do produto e ano.
-  - [ ] 2.5.6 Registrar rota `''` com `name='home'` em `core/urls.py`.
-- [ ] **2.6 Validação visual**
-  - [ ] 2.6.1 Conferir a home em 375px, 768px e 1280px.
-  - [ ] 2.6.2 Conferir contraste dos textos sobre o fundo escuro.
+- [X] **2.2 Layout autenticado (`templates/base_app.html`)**
+  - [X] 2.2.1 Estender `base.html` e montar estrutura `flex` com sidebar + área de conteúdo.
+  - [X] 2.2.2 Criar topbar mobile com logo e botão de abrir menu.
+  - [X] 2.2.3 Incluir `_messages.html` no topo do conteúdo.
+  - [X] 2.2.4 Envolver o conteúdo no container padrão (seção 9.7).
+- [X] **2.3 Componentes (partials)**
+  - [X] 2.3.1 `_sidebar.html`: logo em gradiente, links do menu e botão Sair (form POST com `csrf_token`).
+  - [X] 2.3.2 Lógica de item ativo com `request.resolver_match.url_name`.
+  - [X] 2.3.3 Script inline mínimo para abrir/fechar sidebar no mobile.
+  - [X] 2.3.4 `_navbar_public.html`: logo, "Entrar" e "Cadastre-se" (ou "Ir para o dashboard" se autenticado).
+  - [X] 2.3.5 `_messages.html`: renderizar `messages` com cores por `message.tags`.
+  - [X] 2.3.6 `_form_field.html`: label, campo, help text e lista de erros.
+  - [X] 2.3.7 `_empty_state.html`: recebe `text`, `button_label` e `button_url` via `{% include ... with %}`.
+  - [X] 2.3.8 `_pagination.html`: anterior/próxima e página atual, preservando querystring de filtros.
+- [X] **2.4 Mixin de formulários (`core/forms.py`)**
+  - [X] 2.4.1 Criar `StyledFormMixin` aplicando `form-input` a todos os widgets.
+  - [X] 2.4.2 Tratar `CheckboxInput` com classe própria (`h-4 w-4 accent-violet-500`).
+  - [X] 2.4.3 Configurar `DateInput` com `type='date'` onde aplicável (nos forms dos apps).
+- [X] **2.5 Página inicial pública**
+  - [X] 2.5.1 Criar `HomeView(TemplateView)` em `core/views.py`.
+  - [X] 2.5.2 Criar `templates/home.html` estendendo `base.html` com navbar pública.
+  - [X] 2.5.3 Seção hero: título com gradiente de texto, subtítulo e botões "Cadastre-se" e "Entrar".
+  - [X] 2.5.4 Seção de destaques com 3 cards (Contas, Categorias, Transações) em grid responsivo.
+  - [X] 2.5.5 Rodapé simples com nome do produto e ano.
+  - [X] 2.5.6 Registrar rota `''` com `name='home'` em `core/urls.py`.
+- [X] **2.6 Validação visual**
+  - [X] 2.6.1 Conferir a home em 375px, 768px e 1280px.
+  - [X] 2.6.2 Conferir contraste dos textos sobre o fundo escuro.
 
 ### Sprint 3 — Cadastro, login e logout
 

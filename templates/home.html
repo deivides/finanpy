@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% block title %}Início | Finanpy{% endblock %}
+
+{% block body %}
+  <div class="flex min-h-screen flex-col">
+    {% include 'components/_navbar_public.html' %}
+
+    <main class="flex-1">
+      {# Hero com o glow de fundo da PRD 9.2 #}
+      <section class="border-b border-slate-800 bg-gradient-to-br from-violet-600/20 via-slate-950 to-cyan-500/10">
+        <div class="mx-auto w-full max-w-7xl px-4 py-16 text-center md:px-8 md:py-24 lg:py-32">
+          <p class="text-xs font-medium uppercase tracking-wide text-cyan-400">Finanças pessoais sem complicação</p>
+          <h1 class="mx-auto mt-4 max-w-3xl text-4xl font-bold text-slate-100 md:text-5xl lg:text-6xl">
+            Suas finanças sob controle com o
+            <span class="bg-gradient-to-r from-violet-400 to-cyan-400 bg-clip-text text-transparent">Finanpy</span>
+          </h1>
+          <p class="mx-auto mt-6 max-w-2xl text-sm text-slate-300 md:text-base">
+            Cadastre suas contas, organize entradas e saídas por categoria e acompanhe o saldo do mês em um só lugar.
+          </p>
+
+          <div class="mt-10 flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center">
+            {% if user.is_authenticated %}
+              {% url 'dashboard' as dashboard_url %}
+              <a href="{{ dashboard_url }}" class="btn-primary">Ir para o dashboard</a>
+            {% else %}
+              {% url 'signup' as signup_url %}
+              {% url 'login' as login_url %}
+              <a href="{{ signup_url }}" class="btn-primary">Cadastre-se</a>
+              <a href="{{ login_url }}" class="btn-secondary">Entrar</a>
+            {% endif %}
+          </div>
+        </div>
+      </section>
+
+      {# Destaques #}
+      <section class="mx-auto w-full max-w-7xl px-4 py-12 md:px-8 md:py-16" aria-labelledby="destaques-titulo">
+        <h2 id="destaques-titulo" class="text-center text-xl font-semibold text-slate-100">Tudo o que você precisa para organizar o seu dinheiro</h2>
+
+        <div class="mt-8 grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-6">
+          <article class="card">
+            <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-violet-500/10 text-violet-400 ring-1 ring-violet-500/30">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6" aria-hidden="true">
+                <path d="M3 10h18"/>
+                <path d="M5 10v8"/>
+                <path d="M10 10v8"/>
+                <path d="M14 10v8"/>
+                <path d="M19 10v8"/>
+                <path d="M3 21h18"/>
+                <path d="M12 3 3 8h18z"/>
+              </svg>
+            </div>
+            <h3 class="mt-4 text-lg font-semibold text-slate-100">Contas</h3>
+            <p class="mt-2 text-sm text-slate-400">Cadastre contas correntes, poupanças, carteiras e investimentos e veja o saldo de cada uma atualizado automaticamente.</p>
+          </article>
+
+          <article class="card">
+            <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-indigo-500/10 text-indigo-400 ring-1 ring-indigo-500/30">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6" aria-hidden="true">
+                <path d="M12.6 2.6A2 2 0 0 0 11.2 2H4a2 2 0 0 0-2 2v7.2a2 2 0 0 0 .6 1.4l8.7 8.7a2.4 2.4 0 0 0 3.4 0l6.6-6.6a2.4 2.4 0 0 0 0-3.4z"/>
+                <circle cx="7.5" cy="7.5" r="1.5"/>
+              </svg>
+            </div>
+            <h3 class="mt-4 text-lg font-semibold text-slate-100">Categorias</h3>
+            <p class="mt-2 text-sm text-slate-400">Organize seus gastos e ganhos com categorias próprias de entrada e de saída, do jeito que fizer sentido para você.</p>
+          </article>
+
+          <article class="card">
+            <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-cyan-500/10 text-cyan-400 ring-1 ring-cyan-500/30">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6" aria-hidden="true">
+                <path d="M7 4v16"/>
+                <path d="m3 8 4-4 4 4"/>
+                <path d="M17 20V4"/>
+                <path d="m21 16-4 4-4-4"/>
+              </svg>
+            </div>
+            <h3 class="mt-4 text-lg font-semibold text-slate-100">Transações</h3>
+            <p class="mt-2 text-sm text-slate-400">Registre entradas e saídas, filtre por período, conta ou categoria e entenda para onde vai o seu dinheiro.</p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="border-t border-slate-800">
+      <div class="mx-auto flex w-full max-w-7xl flex-col items-center justify-between gap-2 px-4 py-6 text-center sm:flex-row md:px-8">
+        <span class="bg-gradient-to-r from-violet-400 to-cyan-400 bg-clip-text font-semibold text-transparent">Finanpy</span>
+        <p class="text-xs text-slate-400">&copy; {% now 'Y' %} Finanpy. Controle financeiro pessoal.</p>
+      </div>
+    </footer>
+  </div>
+{% endblock %}

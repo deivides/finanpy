@@ -32,7 +32,7 @@ Visual guidelines defined in the [PRD](../PRD.md) (section 9). There are no temp
 
 | Name | Classes |
 |---|---|
-| Main | `bg-gradient-to-r from-violet-600 via-indigo-600 to-cyan-500` |
+| Main | `bg-gradient-to-r from-violet-600 via-indigo-600 to-cyan-700` (ends in `cyan-700` so white `btn-primary` text keeps AA contrast) |
 | Text | `bg-gradient-to-r from-violet-400 to-cyan-400 bg-clip-text text-transparent` |
 | Background glow | `bg-gradient-to-br from-violet-600/20 via-slate-950 to-cyan-500/10` |
 | Balance card | `bg-gradient-to-br from-violet-600 to-indigo-700` |
@@ -80,7 +80,23 @@ Tailwind v4 notes:
 | `btn-ghost` | Subtle actions (Edit, menu items) |
 | `btn-danger` | Destructive actions (Delete) |
 
-Rule: at most **one** `btn-primary` per screen/form.
+Rule: at most **one** `btn-primary` per screen/form. Navigation bars (public navbar and sidebar) never use `btn-primary`, so they don't compete with the page's main action.
+
+## Navigation
+
+- **Public navbar** (`components/_navbar_public.html`): gradient logo on the left; "Entrar" (`btn-ghost`) and "Cadastre-se" (`btn-secondary`) on the right. Logged-in users see only "Ir para o dashboard" (`btn-secondary`).
+- **Sidebar** (`components/_sidebar.html`): menu items use `nav-link`; the current page uses `nav-link-active`, based on `request.resolver_match.url_name`. "Sair" is a POST form at the bottom.
+
+## Messages
+
+Colors follow `message.level_tag`:
+
+| Level | Classes |
+|---|---|
+| Success | `bg-emerald-500/10 text-emerald-300 ring-1 ring-emerald-500/30` |
+| Error | `bg-rose-500/10 text-rose-300 ring-1 ring-rose-500/30` |
+| Warning | `bg-amber-500/10 text-amber-300 ring-1 ring-amber-500/30` |
+| Info | `bg-cyan-500/10 text-cyan-300 ring-1 ring-cyan-500/30` |
 
 ## Layout
 

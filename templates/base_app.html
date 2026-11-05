@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block body %}
+  <div class="flex min-h-screen">
+    {# Sidebar: fixa a partir de lg; no mobile fica fora da tela e abre com o atributo data-open (script na tarefa 2.3.3). #}
+    <aside id="sidebar" class="fixed inset-y-0 left-0 z-40 flex w-64 flex-col overflow-y-auto border-r border-slate-800 bg-slate-900 transition max-lg:invisible max-lg:-translate-x-full data-open:visible data-open:translate-x-0" aria-label="Menu principal">
+      {% include 'components/_sidebar.html' %}
+    </aside>
+
+    {# Fundo escurecido atrás da sidebar aberta no mobile. #}
+    <div id="sidebar-backdrop" class="fixed inset-0 z-30 bg-slate-950/70 backdrop-blur-sm lg:hidden" hidden></div>
+
+    <div class="flex min-w-0 flex-1 flex-col lg:pl-64">
+      <header class="sticky top-0 z-20 flex items-center justify-between border-b border-slate-800 bg-slate-950/70 px-4 py-3 backdrop-blur lg:hidden">
+        {% url 'dashboard' as dashboard_url %}
+        <a href="{{ dashboard_url }}" class="bg-gradient-to-r from-violet-400 to-cyan-400 bg-clip-text text-xl font-bold text-transparent">Finanpy</a>
+        <button type="button" id="sidebar-open" class="btn-ghost px-2.5" aria-label="Abrir menu" aria-controls="sidebar" aria-expanded="false">
+          <svg class="size-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+          </svg>
+        </button>
+      </header>
+
+      <main class="flex-1">
+        <div class="mx-auto w-full max-w-7xl px-4 md:px-8 py-6 md:py-8">
+          {% include 'components/_messages.html' %}
+          {% block content %}{% endblock %}
+        </div>
+      </main>
+    </div>
+  </div>
+
+  {# Abre/fecha a sidebar no mobile: data-open na sidebar, hidden no fundo e aria-expanded no botão. #}
+  <script>
+    (function () {
+      var sidebar = document.getElementById('sidebar');
+      var backdrop = document.getElementById('sidebar-backdrop');
+      var openButton = document.getElementById('sidebar-open');
+      var closeButton = document.getElementById('sidebar-close');
+      if (!sidebar || !backdrop || !openButton) return;
+
+      function setOpen(open) {
+        sidebar.toggleAttribute('data-open', open);
+        backdrop.hidden = !open;
+        openButton.setAttribute('aria-expanded', String(open));
+        if (open && closeButton) closeButton.focus();
+      }
+
+      function close() {
+        if (!sidebar.hasAttribute('data-open')) return;
+        setOpen(false);
+        openButton.focus();
+      }
+
+      openButton.addEventListener('click', function () { setOpen(true); });
+      backdrop.addEventListener('click', close);
+      if (closeButton) closeButton.addEventListener('click', close);
+      document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape') close();
+      });
+      window.matchMedia('(min-width: 64rem)').addEventListener('change', function (event) {
+        if (event.matches) setOpen(false);
+      });
+    })();
+  </script>
+{% endblock %}

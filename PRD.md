@@ -426,7 +426,7 @@ erDiagram
 
 | Nome | Classes |
 |---|---|
-| Gradiente principal | `bg-gradient-to-r from-violet-600 via-indigo-600 to-cyan-500` |
+| Gradiente principal | `bg-gradient-to-r from-violet-600 via-indigo-600 to-cyan-700` (termina em `cyan-700` para o texto branco do `btn-primary` manter contraste AA) |
 | Gradiente de texto | `bg-gradient-to-r from-violet-400 to-cyan-400 bg-clip-text text-transparent` |
 | Glow de fundo (hero) | `bg-gradient-to-br from-violet-600/20 via-slate-950 to-cyan-500/10` |
 | Card de saldo | `bg-gradient-to-br from-violet-600 to-indigo-700` |
@@ -467,7 +467,7 @@ No Tailwind v4, `@apply` só aceita utilitários registrados. Por isso, as class
 
   @layer components {
     /* Botões */
-    .btn-primary { @apply btn bg-gradient-to-r from-violet-600 via-indigo-600 to-cyan-500 text-white shadow-lg shadow-violet-900/40 hover:brightness-110; }
+    .btn-primary { @apply btn bg-gradient-to-r from-violet-600 via-indigo-600 to-cyan-700 text-white shadow-lg shadow-violet-900/40 hover:brightness-110; }
     .btn-secondary { @apply btn border border-slate-700 bg-slate-800 text-slate-100 hover:bg-slate-700; }
     .btn-ghost { @apply btn text-slate-300 hover:bg-slate-800 hover:text-white; }
     .btn-danger { @apply btn bg-rose-600 text-white hover:bg-rose-500; }
@@ -506,11 +506,11 @@ No Tailwind v4, `@apply` só aceita utilitários registrados. Por isso, as class
 | `btn-ghost` | Ações discretas em tabelas (Editar) e itens de menu |
 | `btn-danger` | Ações destrutivas (Excluir, Confirmar exclusão) |
 
-Regra: no máximo **um** `btn-primary` por tela/formulário.
+Regra: no máximo **um** `btn-primary` por tela/formulário. Barras de navegação (navbar pública e sidebar) nunca usam `btn-primary`, para não competir com a ação principal da página.
 
 ### 9.6 Inputs e forms
 
-- Todos os campos recebem a classe `form-input` automaticamente via `StyledFormMixin` (`core/forms.py`), que percorre `self.fields` no `__init__` e aplica `widget.attrs['class'] = 'form-input'`.
+- Todos os campos recebem a classe `form-input` automaticamente via `StyledFormMixin` (`core/forms.py`), que percorre `self.fields` no `__init__` e acrescenta a classe `form-input` às classes já existentes do widget. Exceções: `CheckboxInput` recebe `h-4 w-4 accent-violet-500`, e todo `DateInput` passa a usar `type='date'` com formato `%Y-%m-%d` (quando não há formato explícito), já que o input de data do navegador não aceita `dd/mm/aaaa`.
 - Cada campo é renderizado pelo partial `components/_form_field.html` (label + input + help text + erros).
 - Formulários ficam dentro de um `card`, com largura máxima `max-w-xl` e espaçamento `space-y-5`.
 - Rodapé do formulário: `flex justify-end gap-3` com `btn-secondary` (Cancelar) e `btn-primary` (Salvar).
@@ -528,13 +528,13 @@ Regra: no máximo **um** `btn-primary` por tela/formulário.
 
 ### 9.8 Menus
 
-- **Área pública** (`_navbar_public.html`): barra superior fixa, `backdrop-blur bg-slate-950/70 border-b border-slate-800`, logo em gradiente à esquerda e botões "Entrar" (`btn-ghost`) e "Cadastre-se" (`btn-primary`) à direita.
+- **Área pública** (`_navbar_public.html`): barra superior fixa, `backdrop-blur bg-slate-950/70 border-b border-slate-800`, logo em gradiente à esquerda e botões "Entrar" (`btn-ghost`) e "Cadastre-se" (`btn-secondary`) à direita. Usuário autenticado vê apenas "Ir para o dashboard" (`btn-secondary`). A navbar não usa `btn-primary` porque a home, o login e o cadastro já têm o seu próprio botão principal.
 - **Área autenticada** (`_sidebar.html`): sidebar fixa à esquerda em `lg` (`w-64 bg-slate-900 border-r border-slate-800`), com itens: Dashboard, Transações, Contas, Categorias, Perfil e, no rodapé, Sair (form POST). Em telas menores, a sidebar fica oculta e é aberta por um botão "menu" na topbar (toggle simples com poucas linhas de JavaScript inline).
 - Item ativo usa `nav-link-active` (comparação com `request.resolver_match.url_name`).
 
 ### 9.9 Feedback e estados
 
-- **Mensagens** (`_messages.html`): alertas no topo do conteúdo; sucesso `bg-emerald-500/10 text-emerald-300 ring-1 ring-emerald-500/30`, erro `bg-rose-500/10 text-rose-300 ring-1 ring-rose-500/30`.
+- **Mensagens** (`_messages.html`): alertas no topo do conteúdo; sucesso `bg-emerald-500/10 text-emerald-300 ring-1 ring-emerald-500/30`, erro `bg-rose-500/10 text-rose-300 ring-1 ring-rose-500/30`, aviso `bg-amber-500/10 text-amber-300 ring-1 ring-amber-500/30` e informação `bg-cyan-500/10 text-cyan-300 ring-1 ring-cyan-500/30`. A cor segue `message.level_tag`.
 - **Estado vazio** (`_empty_state.html`): ícone, texto explicativo e `btn-primary` para criar o primeiro registro.
 - **Valores**: entradas em `text-emerald-400` com prefixo `+`, saídas em `text-rose-400` com prefixo `−`, sempre `tabular-nums`.
 
