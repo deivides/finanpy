@@ -52,7 +52,7 @@ Visual guidelines defined in the [PRD](../PRD.md) (section 9). There are no temp
 
 ## Components
 
-Planned component classes (defined with `@apply`, only once, in the base template):
+Component classes, defined with `@apply` only once, in the `<style type="text/tailwindcss">` block of `templates/base.html`:
 
 | Group | Classes |
 |---|---|
@@ -64,6 +64,12 @@ Planned component classes (defined with `@apply`, only once, in the base templat
 | Menu | `nav-link`, `nav-link-active` |
 
 The full definition of each class is in the PRD, section 9.4.
+
+Tailwind v4 notes:
+
+- `@apply` only accepts registered utilities. The base classes reused by other classes (`btn`, `badge`, `nav-link`) are declared with `@utility`. The rest live in `@layer components`, which allows nested selectors such as `.table th`.
+- Tailwind v4 has no `placeholder-slate-500` class. Use `placeholder:text-slate-500` instead.
+- An unknown class inside `@apply` breaks the whole style block in the browser, so check every new class against Tailwind v4 before adding it.
 
 ## Button usage
 

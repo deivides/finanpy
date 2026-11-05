@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Finanpy is a personal finance web app built with Django full stack (server-rendered DTL templates + TailwindCSS). `PRD.md` is the source of truth for scope, data model, URL map, design system and the sprint task list (section 13). Mark tasks as `[X]` in the PRD when completed. Do not add features or dependencies outside the PRD scope. `docs/` holds the project documentation (index in `docs/README.md`); keep it in sync when the project changes.
 
-Current state: Sprint 0 is done except the first git commit (0.1.5). Django 6.1.2 skeleton with pt-br/`America/Sao_Paulo` settings, `TEMPLATES['DIRS']` pointing at the empty `templates/` dir, and the apps `users`, `profiles`, `accounts`, `categories` and `transactions` registered by their `AppConfig`. The apps have no models, views, URLs or templates yet, and no app migrations have been generated. The only route is `admin/`.
+Current state: Sprint 0 is done except the first git commit (0.1.5). Django 6.1.2 skeleton with pt-br/`America/Sao_Paulo` settings, `TEMPLATES['DIRS']` pointing at the empty `templates/` dir, and the apps `users`, `profiles`, `accounts`, `categories` and `transactions` registered by their `AppConfig`. The custom user (`users.User` + `users/managers.py`) exists, `AUTH_USER_MODEL = 'users.User'` is set and `users.0001_initial` plus all contrib migrations are applied to `db.sqlite3`. The other apps have no models or migrations yet, and there are no views, URLs or templates. The only route is `admin/`.
 
 ## Commands
 

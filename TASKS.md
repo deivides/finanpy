@@ -28,37 +28,37 @@
 
 ### Sprint 1 — Usuário customizado e base de dados de autenticação
 
-- [ ] **1.1 Manager de usuário (`users/managers.py`)**
-  - [ ] 1.1.1 Criar `UserManager(BaseUserManager)`.
-  - [ ] 1.1.2 Implementar `create_user(email, password=None, **extra_fields)` com `normalize_email` e validação de e-mail obrigatório.
-  - [ ] 1.1.3 Implementar `create_superuser` definindo `is_staff=True` e `is_superuser=True`.
-- [ ] **1.2 Model `User` (`users/models.py`)**
-  - [ ] 1.2.1 Criar `User(AbstractUser)` com `username = None`.
-  - [ ] 1.2.2 Definir `email = models.EmailField('e-mail', unique=True)`.
-  - [ ] 1.2.3 Adicionar `created_at` e `updated_at`.
-  - [ ] 1.2.4 Definir `USERNAME_FIELD = 'email'` e `REQUIRED_FIELDS = ['first_name', 'last_name']`.
-  - [ ] 1.2.5 Atribuir `objects = UserManager()`.
-  - [ ] 1.2.6 Definir `Meta` com `verbose_name = 'usuário'` e `verbose_name_plural = 'usuários'`.
-  - [ ] 1.2.7 Implementar `__str__` retornando o e-mail.
-- [ ] **1.3 Configuração e migrations**
-  - [ ] 1.3.1 Definir `AUTH_USER_MODEL = 'users.User'` no `settings.py`.
-  - [ ] 1.3.2 Rodar `makemigrations users` e `migrate` (primeira migration do projeto).
-  - [ ] 1.3.3 Criar superusuário com `createsuperuser` e validar login por e-mail no admin.
-- [ ] **1.4 Admin de usuários (`users/admin.py`)**
-  - [ ] 1.4.1 Registrar `User` com `UserAdmin` customizado.
-  - [ ] 1.4.2 Ajustar `ordering = ('email',)`, `list_display` (email, first_name, last_name, is_staff).
-  - [ ] 1.4.3 Ajustar `fieldsets` e `add_fieldsets` removendo `username`.
-  - [ ] 1.4.4 Definir `search_fields = ('email', 'first_name', 'last_name')`.
+- [X] **1.1 Manager de usuário (`users/managers.py`)**
+  - [X] 1.1.1 Criar `UserManager(BaseUserManager)`.
+  - [X] 1.1.2 Implementar `create_user(email, password=None, **extra_fields)` com `normalize_email` e validação de e-mail obrigatório.
+  - [X] 1.1.3 Implementar `create_superuser` definindo `is_staff=True` e `is_superuser=True`.
+- [X] **1.2 Model `User` (`users/models.py`)**
+  - [X] 1.2.1 Criar `User(AbstractUser)` com `username = None`.
+  - [X] 1.2.2 Definir `email = models.EmailField('e-mail', unique=True)`.
+  - [X] 1.2.3 Adicionar `created_at` e `updated_at`.
+  - [X] 1.2.4 Definir `USERNAME_FIELD = 'email'` e `REQUIRED_FIELDS = ['first_name', 'last_name']`.
+  - [X] 1.2.5 Atribuir `objects = UserManager()`.
+  - [X] 1.2.6 Definir `Meta` com `verbose_name = 'usuário'` e `verbose_name_plural = 'usuários'`.
+  - [X] 1.2.7 Implementar `__str__` retornando o e-mail.
+- [X] **1.3 Configuração e migrations**
+  - [X] 1.3.1 Definir `AUTH_USER_MODEL = 'users.User'` no `settings.py`.
+  - [X] 1.3.2 Rodar `makemigrations users` e `migrate` (primeira migration do projeto).
+  - [X] 1.3.3 Criar superusuário com `createsuperuser` e validar login por e-mail no admin.
+- [X] **1.4 Admin de usuários (`users/admin.py`)**
+  - [X] 1.4.1 Registrar `User` com `UserAdmin` customizado.
+  - [X] 1.4.2 Ajustar `ordering = ('email',)`, `list_display` (email, first_name, last_name, is_staff).
+  - [X] 1.4.3 Ajustar `fieldsets` e `add_fieldsets` removendo `username`.
+  - [X] 1.4.4 Definir `search_fields = ('email', 'first_name', 'last_name')`.
 
 ### Sprint 2 — Design system e templates base
 
-- [ ] **2.1 Template base (`templates/base.html`)**
-  - [ ] 2.1.1 Estrutura HTML5 com `lang="pt-br"`, meta viewport e charset.
-  - [ ] 2.1.2 Incluir o script do Tailwind CDN (`@tailwindcss/browser@4`).
-  - [ ] 2.1.3 Incluir a fonte Inter via Google Fonts.
-  - [ ] 2.1.4 Definir `body` com `bg-slate-950 text-slate-100 font-['Inter'] antialiased min-h-screen`.
-  - [ ] 2.1.5 Adicionar bloco `<style type="text/tailwindcss">` com os componentes da seção 9.4.
-  - [ ] 2.1.6 Criar blocos `{% block title %}`, `{% block body %}` e `{% block content %}`.
+- [X] **2.1 Template base (`templates/base.html`)**
+  - [X] 2.1.1 Estrutura HTML5 com `lang="pt-br"`, meta viewport e charset.
+  - [X] 2.1.2 Incluir o script do Tailwind CDN (`@tailwindcss/browser@4`).
+  - [X] 2.1.3 Incluir a fonte Inter via Google Fonts.
+  - [X] 2.1.4 Definir `body` com `bg-slate-950 text-slate-100 font-['Inter'] antialiased min-h-screen`.
+  - [X] 2.1.5 Adicionar bloco `<style type="text/tailwindcss">` com os componentes da seção 9.4.
+  - [X] 2.1.6 Criar blocos `{% block title %}`, `{% block body %}` e `{% block content %}`.
 - [ ] **2.2 Layout autenticado (`templates/base_app.html`)**
   - [ ] 2.2.1 Estender `base.html` e montar estrutura `flex` com sidebar + área de conteúdo.
   - [ ] 2.2.2 Criar topbar mobile com logo e botão de abrir menu.

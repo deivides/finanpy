@@ -446,13 +446,27 @@ erDiagram
 
 ### 9.4 Componentes (definidos em `base.html`)
 
-Os componentes são declarados uma única vez em um bloco `<style type="text/tailwindcss">` no `base.html`, usando `@apply`:
+Os componentes são declarados uma única vez em um bloco `<style type="text/tailwindcss">` no `base.html`, usando `@apply`.
+
+No Tailwind v4, `@apply` só aceita utilitários registrados. Por isso, as classes-base reaproveitadas por outras (`btn`, `badge` e `nav-link`) são declaradas com `@utility`. As demais ficam em `@layer components`, que permite seletores aninhados como `.table th`. O v4 também não tem `placeholder-slate-500`; o equivalente é `placeholder:text-slate-500`.
 
 ```html
 <style type="text/tailwindcss">
+  /* Bases reutilizadas */
+  @utility btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-violet-500/50 disabled:opacity-50;
+  }
+
+  @utility badge {
+    @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium;
+  }
+
+  @utility nav-link {
+    @apply flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-400 transition hover:bg-slate-800 hover:text-white;
+  }
+
   @layer components {
     /* Botões */
-    .btn { @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-violet-500/50 disabled:opacity-50; }
     .btn-primary { @apply btn bg-gradient-to-r from-violet-600 via-indigo-600 to-cyan-500 text-white shadow-lg shadow-violet-900/40 hover:brightness-110; }
     .btn-secondary { @apply btn border border-slate-700 bg-slate-800 text-slate-100 hover:bg-slate-700; }
     .btn-ghost { @apply btn text-slate-300 hover:bg-slate-800 hover:text-white; }
@@ -460,7 +474,7 @@ Os componentes são declarados uma única vez em um bloco `<style type="text/tai
 
     /* Formulários */
     .form-label { @apply mb-1.5 block text-sm font-medium text-slate-300; }
-    .form-input { @apply w-full rounded-xl border border-slate-700 bg-slate-800/70 px-4 py-2.5 text-slate-100 placeholder-slate-500 transition focus:border-violet-500 focus:outline-none focus:ring-2 focus:ring-violet-500/30; }
+    .form-input { @apply w-full rounded-xl border border-slate-700 bg-slate-800/70 px-4 py-2.5 text-slate-100 placeholder:text-slate-500 transition focus:border-violet-500 focus:outline-none focus:ring-2 focus:ring-violet-500/30; }
     .form-error { @apply mt-1 text-xs text-rose-400; }
     .form-help { @apply mt-1 text-xs text-slate-500; }
 
@@ -468,7 +482,6 @@ Os componentes são declarados uma única vez em um bloco `<style type="text/tai
     .card { @apply rounded-2xl border border-slate-800 bg-slate-900/80 p-5 md:p-6 shadow-xl shadow-black/20; }
 
     /* Badges */
-    .badge { @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium; }
     .badge-income { @apply badge bg-emerald-500/10 text-emerald-400 ring-1 ring-emerald-500/30; }
     .badge-expense { @apply badge bg-rose-500/10 text-rose-400 ring-1 ring-rose-500/30; }
 
@@ -479,7 +492,6 @@ Os componentes são declarados uma única vez em um bloco `<style type="text/tai
     .table tr:hover td { @apply bg-slate-800/40; }
 
     /* Menu lateral */
-    .nav-link { @apply flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-400 transition hover:bg-slate-800 hover:text-white; }
     .nav-link-active { @apply nav-link bg-gradient-to-r from-violet-600/20 to-cyan-500/10 text-white ring-1 ring-violet-500/30; }
   }
 </style>
