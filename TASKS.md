@@ -6,7 +6,7 @@
 
 - [ ] **0.1 Ambiente**
   - [X] 0.1.1 Criar o diretório `finanpy` e o ambiente virtual (`python -m venv .venv`).
-  - [X] 0.1.2 Ativar o ambiente virtual e instalar Django 5.x (`pip install django`).
+  - [X] 0.1.2 Ativar o ambiente virtual e instalar Django 5+ (`pip install django`).
   - [X] 0.1.3 Gerar `requirements.txt` com `pip freeze > requirements.txt`.
   - [X] 0.1.4 Criar `.gitignore` (`.venv/`, `__pycache__/`, `db.sqlite3`, `*.pyc`, `.env`).
   - [ ] 0.1.5 Inicializar repositório git e fazer o primeiro commit.
