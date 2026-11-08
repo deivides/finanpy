@@ -1,0 +1,15 @@
+{% comment %}
+  Item da lista de categorias. Uso dentro de um <ul>: {% include 'categories/_category_item.html' %} (lê "category" do contexto).
+  Nome + badge ficam em uma linha e as ações abaixo; só a partir de xl (colunas largas o bastante) tudo fica em uma linha.
+  Nomes longos quebram linha (break-words) em vez de serem truncados.
+{% endcomment %}
+<li class="flex flex-col gap-3 py-3 first:pt-0 last:pb-0 xl:flex-row xl:items-center xl:justify-between">
+  <div class="flex min-w-0 flex-wrap items-center gap-x-3 gap-y-1">
+    <span class="min-w-0 break-words text-sm md:text-base font-medium text-slate-100">{{ category.name }}</span>
+    <span class="badge shrink-0 {% if category.category_type == 'income' %}badge-income{% else %}badge-expense{% endif %}">{{ category.get_category_type_display }}</span>
+  </div>
+  <div class="flex shrink-0 justify-end gap-2">
+    <a href="{% url 'category_update' category.pk %}" class="btn-ghost" aria-label="Editar categoria {{ category.name }}">Editar</a>
+    <a href="{% url 'category_delete' category.pk %}" class="btn-danger" aria-label="Excluir categoria {{ category.name }}">Excluir</a>
+  </div>
+</li>

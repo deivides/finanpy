@@ -44,4 +44,6 @@ def form_valid(self, form):
     return super().form_valid(form)
 ```
 
+Formulários que precisam do usuário (checagem de duplicidade, querysets por usuário) recebem `user` via `UserFormKwargsMixin` (`core/views.py`), usado nas views de criação e edição.
+
 Os detalhes estão em [docs/coding-standards.md](docs/coding-standards.md).

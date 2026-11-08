@@ -4,10 +4,12 @@
   Item ativo: compara request.resolver_match.url_name com o nome da rota.
   - Rota única:      {% if current == 'dashboard' %}
   - Grupo de rotas:  {% if current|slice:':8' == 'account_' %}  (account_list, account_create, account_update, account_delete)
+                     {% if current|slice:':9' == 'category_' %}  (category_list, category_create, category_update, category_delete)
   As URLs usam "{% url ... as var %}" para não quebrar enquanto a rota ainda não existe.
 {% endcomment %}
 {% url 'dashboard' as dashboard_url %}
 {% url 'account_list' as account_list_url %}
+{% url 'category_list' as category_list_url %}
 {% url 'profile' as profile_url %}
 {% url 'logout' as logout_url %}
 {% with current=request.resolver_match.url_name|default:'' %}
@@ -36,6 +38,15 @@
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0 0 12 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75Z" />
           </svg>
           Contas
+        </a>
+      </li>
+      <li>
+        <a href="{{ category_list_url }}" class="{% if current|slice:':9' == 'category_' %}nav-link-active{% else %}nav-link{% endif %}"{% if current|slice:':9' == 'category_' %} aria-current="page"{% endif %}>
+          <svg class="size-5 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 0 0 5.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3Z" />
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.008v.008H6V6Z" />
+          </svg>
+          Categorias
         </a>
       </li>
       <li>

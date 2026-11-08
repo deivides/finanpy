@@ -30,8 +30,8 @@ The custom user model (`users.User`, login by email, `username = None`, manager 
 
 ## Architecture (planned in PRD section 8)
 
-- **`core`** holds settings, root URLs, `HomeView`/`DashboardView` (`core/views.py`), `UserQuerySetMixin` (`core/views.py`) and `StyledFormMixin` (`core/forms.py`). Each app has its own `urls.py`, which is included in `core/urls.py` with flat URL names (`account_list`, `account_create`, `account_update`, `account_delete`; the same pattern applies to `category_*` and `transaction_*`).
-- **Data isolation:** every user-data view uses `LoginRequiredMixin` + `UserQuerySetMixin` (`get_queryset()` filtered by `request.user`). Create views set `form.instance.user`. Forms that select related objects receive `user` via `get_form_kwargs()` and filter their querysets by it.
+- **`core`** holds settings, root URLs, `HomeView`/`DashboardView` (`core/views.py`), `UserQuerySetMixin` and `UserFormKwargsMixin` (`core/views.py`) and `StyledFormMixin` (`core/forms.py`). Each app has its own `urls.py`, which is included in `core/urls.py` with flat URL names (`account_list`, `account_create`, `account_update`, `account_delete`; the same pattern applies to `category_*` and `transaction_*`).
+- **Data isolation:** every user-data view uses `LoginRequiredMixin` + `UserQuerySetMixin` (`get_queryset()` filtered by `request.user`). Create views set `form.instance.user`. Forms that need the user receive `user` via `get_form_kwargs()` (`UserFormKwargsMixin`) and filter their querysets by it.
 - **Data rules:**
   - `Account.balance` is a computed property (`initial_balance` + income − expenses via `aggregate(Sum)`). It is never a stored field and is never updated by signals.
   - `Transaction.amount` is always positive; `transaction_type` gives the sign. `Transaction.account` uses `CASCADE`. `Transaction.category` uses `PROTECT`, so the category delete view catches `ProtectedError`.

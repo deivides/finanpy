@@ -1,0 +1,43 @@
+{% extends 'base_app.html' %}
+
+{% block title %}Categorias | Finanpy{% endblock %}
+
+{% block content %}
+  {% url 'category_create' as category_create_url %}
+  <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+    <div>
+      <h1 class="text-2xl md:text-3xl font-bold text-slate-100">Categorias</h1>
+      <p class="mt-1 text-sm md:text-base text-slate-400">Organize suas transações em categorias de entrada e saída.</p>
+    </div>
+    {# Único btn-primary da tela: os estados vazios das colunas não têm botão. #}
+    <a href="{{ category_create_url }}" class="btn-primary self-start sm:self-auto">Nova categoria</a>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+    <section class="card" aria-labelledby="income-categories-title">
+      <h2 id="income-categories-title" class="text-xl font-semibold text-slate-100">Entradas</h2>
+      {% if income_categories %}
+        <ul class="mt-4 divide-y divide-slate-800">
+          {% for category in income_categories %}
+            {% include 'categories/_category_item.html' %}
+          {% endfor %}
+        </ul>
+      {% else %}
+        {% include 'components/_empty_state.html' with text='Nenhuma categoria de entrada cadastrada.' %}
+      {% endif %}
+    </section>
+
+    <section class="card" aria-labelledby="expense-categories-title">
+      <h2 id="expense-categories-title" class="text-xl font-semibold text-slate-100">Saídas</h2>
+      {% if expense_categories %}
+        <ul class="mt-4 divide-y divide-slate-800">
+          {% for category in expense_categories %}
+            {% include 'categories/_category_item.html' %}
+          {% endfor %}
+        </ul>
+      {% else %}
+        {% include 'components/_empty_state.html' with text='Nenhuma categoria de saída cadastrada.' %}
+      {% endif %}
+    </section>
+  </div>
+{% endblock %}

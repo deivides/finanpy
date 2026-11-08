@@ -191,39 +191,39 @@
 
 ### Sprint 6 — Categorias
 
-- [ ] **6.1 Model `Category` (`categories/models.py`)**
-  - [ ] 6.1.1 Criar `CategoryType(models.TextChoices)`: `INCOME='income','Entrada'`, `EXPENSE='expense','Saída'`.
-  - [ ] 6.1.2 Criar `Category` com `user` (FK, `related_name='categories'`), `name` (`max_length=100`) e `category_type`.
-  - [ ] 6.1.3 Adicionar `created_at` e `updated_at`.
-  - [ ] 6.1.4 Definir `Meta.ordering = ['category_type', 'name']`.
-  - [ ] 6.1.5 Definir `UniqueConstraint(fields=['user', 'name', 'category_type'], name='unique_user_category')`.
-  - [ ] 6.1.6 Implementar `__str__` retornando o nome.
-  - [ ] 6.1.7 Rodar `makemigrations categories` e `migrate`.
-- [ ] **6.2 Admin**
-  - [ ] 6.2.1 Registrar com `list_display = ('name', 'category_type', 'user')` e `list_filter`.
-- [ ] **6.3 Formulário**
-  - [ ] 6.3.1 Criar `CategoryForm(StyledFormMixin, ModelForm)` com `name` e `category_type`.
-  - [ ] 6.3.2 Receber `user` no `__init__` e validar duplicidade no `clean()` com mensagem em português.
-  - [ ] 6.3.3 Passar `user` via `get_form_kwargs()` nas views de criação e edição.
-- [ ] **6.4 Views**
-  - [ ] 6.4.1 `CategoryListView` separando entradas e saídas no contexto.
-  - [ ] 6.4.2 `CategoryCreateView` atribuindo o usuário.
-  - [ ] 6.4.3 `CategoryUpdateView` com queryset filtrado.
-  - [ ] 6.4.4 `CategoryDeleteView` capturando `ProtectedError` e exibindo "Esta categoria possui transações e não pode ser excluída."
-  - [ ] 6.4.5 Mensagens de sucesso para criar, editar e excluir.
-- [ ] **6.5 URLs**
-  - [ ] 6.5.1 Criar `categories/urls.py` com `category_list`, `category_create`, `category_update`, `category_delete`.
-  - [ ] 6.5.2 Incluir em `core/urls.py` sob `categories/`.
-- [ ] **6.6 Templates**
-  - [ ] 6.6.1 `categories/category_list.html` com duas colunas (Entradas / Saídas) em grid responsivo.
-  - [ ] 6.6.2 Cada item com badge de tipo e ações Editar/Excluir.
-  - [ ] 6.6.3 Estado vazio por coluna.
-  - [ ] 6.6.4 `categories/category_form.html` (criar/editar).
-  - [ ] 6.6.5 `categories/category_confirm_delete.html`.
-  - [ ] 6.6.6 Adicionar link "Categorias" na sidebar.
-- [ ] **6.7 Validação manual**
-  - [ ] 6.7.1 CRUD completo de categorias.
-  - [ ] 6.7.2 Tentar criar categoria duplicada e conferir erro.
+- [X] **6.1 Model `Category` (`categories/models.py`)**
+  - [X] 6.1.1 Criar `CategoryType(models.TextChoices)`: `INCOME='income','Entrada'`, `EXPENSE='expense','Saída'`.
+  - [X] 6.1.2 Criar `Category` com `user` (FK, `related_name='categories'`), `name` (`max_length=100`) e `category_type`.
+  - [X] 6.1.3 Adicionar `created_at` e `updated_at`.
+  - [X] 6.1.4 Definir `Meta.ordering = ['category_type', 'name']`.
+  - [X] 6.1.5 Definir `UniqueConstraint(fields=['user', 'name', 'category_type'], name='unique_user_category')`.
+  - [X] 6.1.6 Implementar `__str__` retornando o nome.
+  - [X] 6.1.7 Rodar `makemigrations categories` e `migrate`.
+- [X] **6.2 Admin**
+  - [X] 6.2.1 Registrar com `list_display = ('name', 'category_type', 'user')` e `list_filter`.
+- [X] **6.3 Formulário**
+  - [X] 6.3.1 Criar `CategoryForm(StyledFormMixin, ModelForm)` com `name` e `category_type`.
+  - [X] 6.3.2 Receber `user` no `__init__` e validar duplicidade no `clean()` com mensagem em português.
+  - [X] 6.3.3 Passar `user` via `get_form_kwargs()` nas views de criação e edição.
+- [X] **6.4 Views**
+  - [X] 6.4.1 `CategoryListView` separando entradas e saídas no contexto.
+  - [X] 6.4.2 `CategoryCreateView` atribuindo o usuário.
+  - [X] 6.4.3 `CategoryUpdateView` com queryset filtrado.
+  - [X] 6.4.4 `CategoryDeleteView` capturando `ProtectedError` e exibindo "Esta categoria possui transações e não pode ser excluída."
+  - [X] 6.4.5 Mensagens de sucesso para criar, editar e excluir.
+- [X] **6.5 URLs**
+  - [X] 6.5.1 Criar `categories/urls.py` com `category_list`, `category_create`, `category_update`, `category_delete`.
+  - [X] 6.5.2 Incluir em `core/urls.py` sob `categories/`.
+- [X] **6.6 Templates**
+  - [X] 6.6.1 `categories/category_list.html` com duas colunas (Entradas / Saídas) em grid responsivo.
+  - [X] 6.6.2 Cada item com badge de tipo e ações Editar/Excluir.
+  - [X] 6.6.3 Estado vazio por coluna.
+  - [X] 6.6.4 `categories/category_form.html` (criar/editar).
+  - [X] 6.6.5 `categories/category_confirm_delete.html`.
+  - [X] 6.6.6 Adicionar link "Categorias" na sidebar.
+- [X] **6.7 Validação manual**
+  - [X] 6.7.1 CRUD completo de categorias.
+  - [X] 6.7.2 Tentar criar categoria duplicada e conferir erro.
 
 ### Sprint 7 — Transações
 
