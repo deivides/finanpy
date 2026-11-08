@@ -63,6 +63,8 @@ Component classes, defined with `@apply` only once, in the `<style type="text/ta
 | Tables | `table` |
 | Menu | `nav-link`, `nav-link-active` |
 
+`<html>` in `base.html` carries `scheme-dark` (`color-scheme: dark`), so native controls (date picker icon, scrollbars, selects) render in dark mode globally; no per-field overrides.
+
 The full definition of each class is in the PRD, section 9.4.
 
 Tailwind v4 notes:

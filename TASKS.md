@@ -125,28 +125,28 @@
 
 ### Sprint 4 — Perfil
 
-- [ ] **4.1 Model `Profile` (`profiles/models.py`)**
-  - [ ] 4.1.1 Criar `Profile` com `user = OneToOneField(settings.AUTH_USER_MODEL, on_delete=CASCADE, related_name='profile')`.
-  - [ ] 4.1.2 Adicionar `phone` (`CharField`, `max_length=20`, `blank=True`).
-  - [ ] 4.1.3 Adicionar `birth_date` (`DateField`, `null=True`, `blank=True`).
-  - [ ] 4.1.4 Adicionar `created_at` e `updated_at`.
-  - [ ] 4.1.5 Definir `verbose_name` em português e `__str__`.
-  - [ ] 4.1.6 Rodar `makemigrations profiles` e `migrate`.
-- [ ] **4.2 Signal (`profiles/signals.py`)**
-  - [ ] 4.2.1 Criar receiver `post_save` para `User` que cria o `Profile` quando `created=True`.
-  - [ ] 4.2.2 Importar o módulo de signals no método `ready()` de `ProfilesConfig`.
-  - [ ] 4.2.3 Validar criação automática cadastrando um novo usuário.
-  - [ ] 4.2.4 Criar perfil para o superusuário existente via shell/admin.
-- [ ] **4.3 Admin**
-  - [ ] 4.3.1 Registrar `Profile` com `list_display = ('user', 'phone', 'birth_date')`.
-- [ ] **4.4 Edição de perfil**
-  - [ ] 4.4.1 Criar `ProfileForm(StyledFormMixin, ModelForm)` com `phone` e `birth_date` (input `type='date'`).
-  - [ ] 4.4.2 Criar `UserNameForm(StyledFormMixin, ModelForm)` com `first_name` e `last_name`.
-  - [ ] 4.4.3 Criar `ProfileUpdateView(LoginRequiredMixin, View)` tratando GET e POST dos dois forms juntos.
-  - [ ] 4.4.4 Exibir mensagem "Perfil atualizado com sucesso." e redirecionar para o próprio perfil.
-  - [ ] 4.4.5 Criar `profiles/urls.py` com rota `profile/` e incluir em `core/urls.py`.
-  - [ ] 4.4.6 Criar `profiles/profile_form.html` com card, e-mail exibido como somente leitura e botão "Salvar".
-  - [ ] 4.4.7 Adicionar link "Perfil" na sidebar.
+- [X] **4.1 Model `Profile` (`profiles/models.py`)**
+  - [X] 4.1.1 Criar `Profile` com `user = OneToOneField(settings.AUTH_USER_MODEL, on_delete=CASCADE, related_name='profile')`.
+  - [X] 4.1.2 Adicionar `phone` (`CharField`, `max_length=20`, `blank=True`).
+  - [X] 4.1.3 Adicionar `birth_date` (`DateField`, `null=True`, `blank=True`).
+  - [X] 4.1.4 Adicionar `created_at` e `updated_at`.
+  - [X] 4.1.5 Definir `verbose_name` em português e `__str__`.
+  - [X] 4.1.6 Rodar `makemigrations profiles` e `migrate`.
+- [X] **4.2 Signal (`profiles/signals.py`)**
+  - [X] 4.2.1 Criar receiver `post_save` para `User` que cria o `Profile` quando `created=True`.
+  - [X] 4.2.2 Importar o módulo de signals no método `ready()` de `ProfilesConfig`.
+  - [X] 4.2.3 Validar criação automática cadastrando um novo usuário.
+  - [X] 4.2.4 Criar perfil para o superusuário existente via shell/admin.
+- [X] **4.3 Admin**
+  - [X] 4.3.1 Registrar `Profile` com `list_display = ('user', 'phone', 'birth_date')`.
+- [X] **4.4 Edição de perfil**
+  - [X] 4.4.1 Criar `ProfileForm(StyledFormMixin, ModelForm)` com `phone` e `birth_date` (input `type='date'`).
+  - [X] 4.4.2 Criar `UserNameForm(StyledFormMixin, ModelForm)` com `first_name` e `last_name`.
+  - [X] 4.4.3 Criar `ProfileUpdateView(LoginRequiredMixin, View)` tratando GET e POST dos dois forms juntos.
+  - [X] 4.4.4 Exibir mensagem "Perfil atualizado com sucesso." e redirecionar para o próprio perfil.
+  - [X] 4.4.5 Criar `profiles/urls.py` com rota `profile/` e incluir em `core/urls.py`.
+  - [X] 4.4.6 Criar `profiles/profile_form.html` com card, e-mail exibido como somente leitura e botão "Salvar".
+  - [X] 4.4.7 Adicionar link "Perfil" na sidebar.
 
 ### Sprint 5 — Contas bancárias
 

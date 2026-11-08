@@ -1,0 +1,40 @@
+{% extends 'base_app.html' %}
+
+{% block title %}Perfil | Finanpy{% endblock %}
+
+{% block content %}
+  {% url 'dashboard' as dashboard_url %}
+  <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+    <div>
+      <h1 class="text-2xl md:text-3xl font-bold text-slate-100">Perfil</h1>
+      <p class="mt-1 text-sm md:text-base text-slate-400">Mantenha seus dados pessoais atualizados.</p>
+    </div>
+  </div>
+
+  <div class="card max-w-xl">
+    <form method="post" class="space-y-5">
+      {% csrf_token %}
+      {% include 'components/_non_field_errors.html' with form=user_form %}
+      {% include 'components/_non_field_errors.html' with form=profile_form %}
+
+      {# E-mail somente leitura: sem atributo name, então não é enviado no POST. #}
+      <div>
+        <label for="profile-email" class="form-label">E-mail</label>
+        <input type="email" id="profile-email" value="{{ request.user.email }}" class="form-input cursor-not-allowed text-slate-400" readonly aria-describedby="profile-email_helptext">
+        <div class="form-help" id="profile-email_helptext">O e-mail é usado para entrar e não pode ser alterado.</div>
+      </div>
+
+      <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
+        {% include 'components/_form_field.html' with field=user_form.first_name %}
+        {% include 'components/_form_field.html' with field=user_form.last_name %}
+      </div>
+      {% include 'components/_form_field.html' with field=profile_form.phone %}
+      {% include 'components/_form_field.html' with field=profile_form.birth_date %}
+
+      <div class="flex justify-end gap-3">
+        <a href="{{ dashboard_url }}" class="btn-secondary">Cancelar</a>
+        <button type="submit" class="btn-primary">Salvar</button>
+      </div>
+    </form>
+  </div>
+{% endblock %}
