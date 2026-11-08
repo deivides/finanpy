@@ -44,7 +44,7 @@ updated_at = models.DateTimeField(auto_now=True)
 
 - Prefer **Class Based Views**.
 - Internal pages require authentication (`LoginRequiredMixin`).
-- Data isolation: every query for user data must be filtered by `request.user`.
+- Data isolation: every query for user data must be filtered by `request.user`. List/Detail/Update/Delete views use `LoginRequiredMixin` + `UserQuerySetMixin` (`core/views.py`), in that order, so another user's pk returns 404. Create views set `form.instance.user = self.request.user` in `form_valid`.
 
 ## Signals
 

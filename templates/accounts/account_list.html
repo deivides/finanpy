@@ -1,0 +1,55 @@
+{% extends 'base_app.html' %}
+
+{% block title %}Contas | Finanpy{% endblock %}
+
+{% block content %}
+  {% url 'account_create' as account_create_url %}
+  <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+    <div>
+      <h1 class="text-2xl md:text-3xl font-bold text-slate-100">Contas</h1>
+      <p class="mt-1 text-sm md:text-base text-slate-400">Gerencie suas contas bancárias e carteiras.</p>
+    </div>
+    {# Sem contas, o botão do estado vazio é o único btn-primary da tela. #}
+    {% if accounts %}
+      <a href="{{ account_create_url }}" class="btn-primary self-start sm:self-auto">Nova conta</a>
+    {% endif %}
+  </div>
+
+  {% if accounts %}
+    <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+      {% for account in accounts %}
+        <li class="card flex flex-col gap-4">
+          <div class="flex items-start justify-between gap-3">
+            <div class="min-w-0">
+              <h2 class="truncate text-lg font-semibold text-slate-100">{{ account.name }}</h2>
+              {% if account.bank_name %}
+                <p class="truncate text-xs text-slate-400">{{ account.bank_name }}</p>
+              {% endif %}
+            </div>
+            {# Badge neutro: o tipo de conta não é entrada nem saída. #}
+            <span class="badge shrink-0 bg-slate-800 text-slate-300 ring-1 ring-slate-700">{{ account.get_account_type_display }}</span>
+          </div>
+
+          <div>
+            <h3 class="text-sm font-medium text-slate-400 uppercase tracking-wide">Saldo</h3>
+            {# Provisório: exibe initial_balance até a tarefa 7.2, quando passa a usar account.balance. #}
+            {% if account.initial_balance < 0 %}
+              <p class="mt-1 text-2xl font-bold tabular-nums text-rose-400">−R$ {{ account.initial_balance|floatformat:"2g"|cut:"-" }}</p>
+            {% else %}
+              <p class="mt-1 text-2xl font-bold tabular-nums text-slate-100">R$ {{ account.initial_balance|floatformat:"2g" }}</p>
+            {% endif %}
+          </div>
+
+          <div class="mt-auto flex justify-end gap-2 border-t border-slate-800 pt-4">
+            <a href="{% url 'account_update' account.pk %}" class="btn-ghost" aria-label="Editar conta {{ account.name }}">Editar</a>
+            <a href="{% url 'account_delete' account.pk %}" class="btn-danger" aria-label="Excluir conta {{ account.name }}">Excluir</a>
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <div class="card">
+      {% include 'components/_empty_state.html' with text='Você ainda não cadastrou nenhuma conta.' button_label='Nova conta' button_url=account_create_url %}
+    </div>
+  {% endif %}
+{% endblock %}

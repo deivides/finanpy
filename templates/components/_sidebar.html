@@ -3,10 +3,11 @@
 
   Item ativo: compara request.resolver_match.url_name com o nome da rota.
   - Rota única:      {% if current == 'dashboard' %}
-  - Grupo de rotas:  {% if 'account_' in current %}  (account_list, account_create, account_update, account_delete)
+  - Grupo de rotas:  {% if current|slice:':8' == 'account_' %}  (account_list, account_create, account_update, account_delete)
   As URLs usam "{% url ... as var %}" para não quebrar enquanto a rota ainda não existe.
 {% endcomment %}
 {% url 'dashboard' as dashboard_url %}
+{% url 'account_list' as account_list_url %}
 {% url 'profile' as profile_url %}
 {% url 'logout' as logout_url %}
 {% with current=request.resolver_match.url_name|default:'' %}
@@ -27,6 +28,14 @@
             <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z" />
           </svg>
           Dashboard
+        </a>
+      </li>
+      <li>
+        <a href="{{ account_list_url }}" class="{% if current|slice:':8' == 'account_' %}nav-link-active{% else %}nav-link{% endif %}"{% if current|slice:':8' == 'account_' %} aria-current="page"{% endif %}>
+          <svg class="size-5 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0 0 12 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75Z" />
+          </svg>
+          Contas
         </a>
       </li>
       <li>

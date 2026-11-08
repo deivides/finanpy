@@ -27,4 +27,21 @@ Acesse `http://127.0.0.1:8000/`.
 | Models | Todo model tem `created_at` e `updated_at`. Valores monetários usam `DecimalField` |
 | Escopo | Nada de dependências ou funcionalidades fora do PRD |
 
+### Isolamento de dados
+
+Toda view que acessa dados do usuário usa `LoginRequiredMixin` + `UserQuerySetMixin` (`core/views.py`), nessa ordem. O mixin filtra `get_queryset()` por `request.user`, então um objeto de outro usuário retorna 404.
+
+```python
+class AccountListView(LoginRequiredMixin, UserQuerySetMixin, ListView):
+    model = Account
+```
+
+Views de criação definem o dono no `form_valid`:
+
+```python
+def form_valid(self, form):
+    form.instance.user = self.request.user
+    return super().form_valid(form)
+```
+
 Os detalhes estão em [docs/coding-standards.md](docs/coding-standards.md).

@@ -150,44 +150,44 @@
 
 ### Sprint 5 — Contas bancárias
 
-- [ ] **5.1 Model `Account` (`accounts/models.py`)**
-  - [ ] 5.1.1 Criar `AccountType(models.TextChoices)`: `CHECKING='checking','Conta corrente'`, `SAVINGS='savings','Poupança'`, `WALLET='wallet','Carteira'`, `INVESTMENT='investment','Investimento'`.
-  - [ ] 5.1.2 Criar `Account` com `user` (FK, `related_name='accounts'`).
-  - [ ] 5.1.3 Adicionar `name` (`max_length=100`) e `bank_name` (`max_length=100`, `blank=True`).
-  - [ ] 5.1.4 Adicionar `account_type` com `choices` e default `CHECKING`.
-  - [ ] 5.1.5 Adicionar `initial_balance` (`DecimalField(max_digits=12, decimal_places=2, default=0)`).
-  - [ ] 5.1.6 Adicionar `created_at` e `updated_at`.
-  - [ ] 5.1.7 Definir `Meta.ordering = ['name']` e `verbose_name` em português.
-  - [ ] 5.1.8 Implementar `__str__` retornando o nome.
-  - [ ] 5.1.9 Rodar `makemigrations accounts` e `migrate`.
-- [ ] **5.2 Admin**
-  - [ ] 5.2.1 Registrar `Account` com `list_display`, `list_filter = ('account_type',)` e `search_fields`.
-- [ ] **5.3 Mixin de isolamento por usuário**
-  - [ ] 5.3.1 Criar `UserQuerySetMixin` em `core/views.py` que filtra `get_queryset()` por `user=self.request.user`.
-  - [ ] 5.3.2 Documentar no README que toda view de dados do usuário deve usar `LoginRequiredMixin` + `UserQuerySetMixin`.
-- [ ] **5.4 Formulário**
-  - [ ] 5.4.1 Criar `AccountForm(StyledFormMixin, ModelForm)` com `name`, `bank_name`, `account_type`, `initial_balance`.
-  - [ ] 5.4.2 Definir labels em português (Nome, Banco, Tipo, Saldo inicial).
-- [ ] **5.5 Views**
-  - [ ] 5.5.1 `AccountListView` (`LoginRequiredMixin`, `UserQuerySetMixin`, `ListView`).
-  - [ ] 5.5.2 `AccountCreateView` atribuindo `form.instance.user = self.request.user` em `form_valid`.
-  - [ ] 5.5.3 `AccountUpdateView` com queryset filtrado por usuário.
-  - [ ] 5.5.4 `AccountDeleteView` com página de confirmação.
-  - [ ] 5.5.5 Usar `SuccessMessageMixin` com mensagens: "Conta criada com sucesso.", "Conta atualizada com sucesso.".
-  - [ ] 5.5.6 Exibir mensagem "Conta excluída com sucesso." no `form_valid` da exclusão.
-- [ ] **5.6 URLs**
-  - [ ] 5.6.1 Criar `accounts/urls.py` com `account_list`, `account_create`, `account_update`, `account_delete`.
-  - [ ] 5.6.2 Incluir em `core/urls.py` sob o prefixo `accounts/`.
-- [ ] **5.7 Templates**
-  - [ ] 5.7.1 `accounts/account_list.html`: cabeçalho com título "Contas" e botão "Nova conta".
-  - [ ] 5.7.2 Grid de cards de conta (nome, banco, tipo em badge, saldo atual) com ações Editar/Excluir.
-  - [ ] 5.7.3 Estado vazio "Você ainda não cadastrou nenhuma conta."
-  - [ ] 5.7.4 `accounts/account_form.html` reutilizado para criar e editar (título dinâmico).
-  - [ ] 5.7.5 `accounts/account_confirm_delete.html` com aviso de exclusão das transações vinculadas.
-  - [ ] 5.7.6 Adicionar link "Contas" na sidebar.
-- [ ] **5.8 Validação manual**
-  - [ ] 5.8.1 CRUD completo de contas.
-  - [ ] 5.8.2 Tentar acessar `/accounts/<pk>/edit/` de outro usuário e confirmar 404.
+- [X] **5.1 Model `Account` (`accounts/models.py`)**
+  - [X] 5.1.1 Criar `AccountType(models.TextChoices)`: `CHECKING='checking','Conta corrente'`, `SAVINGS='savings','Poupança'`, `WALLET='wallet','Carteira'`, `INVESTMENT='investment','Investimento'`.
+  - [X] 5.1.2 Criar `Account` com `user` (FK, `related_name='accounts'`).
+  - [X] 5.1.3 Adicionar `name` (`max_length=100`) e `bank_name` (`max_length=100`, `blank=True`).
+  - [X] 5.1.4 Adicionar `account_type` com `choices` e default `CHECKING`.
+  - [X] 5.1.5 Adicionar `initial_balance` (`DecimalField(max_digits=12, decimal_places=2, default=0)`).
+  - [X] 5.1.6 Adicionar `created_at` e `updated_at`.
+  - [X] 5.1.7 Definir `Meta.ordering = ['name']` e `verbose_name` em português.
+  - [X] 5.1.8 Implementar `__str__` retornando o nome.
+  - [X] 5.1.9 Rodar `makemigrations accounts` e `migrate`.
+- [X] **5.2 Admin**
+  - [X] 5.2.1 Registrar `Account` com `list_display`, `list_filter = ('account_type',)` e `search_fields`.
+- [X] **5.3 Mixin de isolamento por usuário**
+  - [X] 5.3.1 Criar `UserQuerySetMixin` em `core/views.py` que filtra `get_queryset()` por `user=self.request.user`.
+  - [X] 5.3.2 Documentar no README que toda view de dados do usuário deve usar `LoginRequiredMixin` + `UserQuerySetMixin`.
+- [X] **5.4 Formulário**
+  - [X] 5.4.1 Criar `AccountForm(StyledFormMixin, ModelForm)` com `name`, `bank_name`, `account_type`, `initial_balance`.
+  - [X] 5.4.2 Definir labels em português (Nome, Banco, Tipo, Saldo inicial).
+- [X] **5.5 Views**
+  - [X] 5.5.1 `AccountListView` (`LoginRequiredMixin`, `UserQuerySetMixin`, `ListView`).
+  - [X] 5.5.2 `AccountCreateView` atribuindo `form.instance.user = self.request.user` em `form_valid`.
+  - [X] 5.5.3 `AccountUpdateView` com queryset filtrado por usuário.
+  - [X] 5.5.4 `AccountDeleteView` com página de confirmação.
+  - [X] 5.5.5 Usar `SuccessMessageMixin` com mensagens: "Conta criada com sucesso.", "Conta atualizada com sucesso.".
+  - [X] 5.5.6 Exibir mensagem "Conta excluída com sucesso." no `form_valid` da exclusão.
+- [X] **5.6 URLs**
+  - [X] 5.6.1 Criar `accounts/urls.py` com `account_list`, `account_create`, `account_update`, `account_delete`.
+  - [X] 5.6.2 Incluir em `core/urls.py` sob o prefixo `accounts/`.
+- [X] **5.7 Templates**
+  - [X] 5.7.1 `accounts/account_list.html`: cabeçalho com título "Contas" e botão "Nova conta".
+  - [X] 5.7.2 Grid de cards de conta (nome, banco, tipo em badge, saldo atual) com ações Editar/Excluir.
+  - [X] 5.7.3 Estado vazio "Você ainda não cadastrou nenhuma conta."
+  - [X] 5.7.4 `accounts/account_form.html` reutilizado para criar e editar (título dinâmico).
+  - [X] 5.7.5 `accounts/account_confirm_delete.html` com aviso de exclusão das transações vinculadas.
+  - [X] 5.7.6 Adicionar link "Contas" na sidebar.
+- [X] **5.8 Validação manual**
+  - [X] 5.8.1 CRUD completo de contas.
+  - [X] 5.8.2 Tentar acessar `/accounts/<pk>/edit/` de outro usuário e confirmar 404.
 
 ### Sprint 6 — Categorias
 

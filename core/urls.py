@@ -24,5 +24,6 @@ urlpatterns = [
     path('dashboard/', DashboardView.as_view(), name='dashboard'),
     path('', include('users.urls')),
     path('', include('profiles.urls')),
+    path('accounts/', include('accounts.urls')),
     path('admin/', admin.site.urls),
 ]

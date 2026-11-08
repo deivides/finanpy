@@ -1,0 +1,32 @@
+{% extends 'base_app.html' %}
+
+{% block title %}{% if object %}Editar conta{% else %}Nova conta{% endif %} | Finanpy{% endblock %}
+
+{% block content %}
+  {% url 'account_list' as account_list_url %}
+  <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+    <div>
+      <h1 class="text-2xl md:text-3xl font-bold text-slate-100">{% if object %}Editar conta{% else %}Nova conta{% endif %}</h1>
+      <p class="mt-1 text-sm md:text-base text-slate-400">{% if object %}Atualize os dados da conta {{ object.name }}.{% else %}Cadastre uma conta bancária, poupança, carteira ou investimento.{% endif %}</p>
+    </div>
+  </div>
+
+  <div class="card max-w-xl">
+    <form method="post" class="space-y-5">
+      {% csrf_token %}
+      {% include 'components/_non_field_errors.html' %}
+
+      {% include 'components/_form_field.html' with field=form.name %}
+      {% include 'components/_form_field.html' with field=form.bank_name %}
+      <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
+        {% include 'components/_form_field.html' with field=form.account_type %}
+        {% include 'components/_form_field.html' with field=form.initial_balance %}
+      </div>
+
+      <div class="flex justify-end gap-3">
+        <a href="{{ account_list_url }}" class="btn-secondary">Cancelar</a>
+        <button type="submit" class="btn-primary">Salvar</button>
+      </div>
+    </form>
+  </div>
+{% endblock %}
