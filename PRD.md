@@ -420,7 +420,7 @@ erDiagram
 | `warning` | Alertas | `amber-400` | `#FBBF24` |
 | `text-primary` | Texto principal | `text-slate-100` | `#F1F5F9` |
 | `text-secondary` | Texto de apoio | `text-slate-400` | `#94A3B8` |
-| `text-muted` | Placeholders, legendas | `text-slate-500` | `#64748B` |
+| `text-muted` | Placeholders e texto desabilitado | `text-slate-500` | `#64748B` |
 
 **Gradientes:**
 
@@ -441,7 +441,7 @@ erDiagram
 | H2 (seção) | `text-xl font-semibold text-slate-100` |
 | H3 (card) | `text-sm font-medium text-slate-400 uppercase tracking-wide` |
 | Corpo | `text-sm md:text-base text-slate-300` |
-| Legenda | `text-xs text-slate-500` |
+| Legenda | `text-xs text-slate-400` (`slate-500` não atinge o contraste AA sobre o fundo escuro) |
 | Valor monetário grande | `text-3xl font-bold tabular-nums` |
 
 ### 9.4 Componentes (definidos em `base.html`)
@@ -476,7 +476,7 @@ No Tailwind v4, `@apply` só aceita utilitários registrados. Por isso, as class
     .form-label { @apply mb-1.5 block text-sm font-medium text-slate-300; }
     .form-input { @apply w-full rounded-xl border border-slate-700 bg-slate-800/70 px-4 py-2.5 text-slate-100 placeholder:text-slate-500 transition focus:border-violet-500 focus:outline-none focus:ring-2 focus:ring-violet-500/30; }
     .form-error { @apply mt-1 text-xs text-rose-400; }
-    .form-help { @apply mt-1 text-xs text-slate-500; }
+    .form-help { @apply mt-1 text-xs text-slate-400; }
 
     /* Cards */
     .card { @apply rounded-2xl border border-slate-800 bg-slate-900/80 p-5 md:p-6 shadow-xl shadow-black/20; }
@@ -487,7 +487,7 @@ No Tailwind v4, `@apply` só aceita utilitários registrados. Por isso, as class
 
     /* Tabelas */
     .table { @apply w-full text-left text-sm; }
-    .table th { @apply border-b border-slate-800 px-4 py-3 text-xs font-medium uppercase tracking-wide text-slate-500; }
+    .table th { @apply border-b border-slate-800 px-4 py-3 text-xs font-medium uppercase tracking-wide text-slate-400; }
     .table td { @apply border-b border-slate-800/60 px-4 py-3 text-slate-300; }
     .table tr:hover td { @apply bg-slate-800/40; }
 

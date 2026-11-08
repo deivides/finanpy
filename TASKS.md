@@ -90,38 +90,38 @@
 
 ### Sprint 3 — Cadastro, login e logout
 
-- [ ] **3.1 Formulários (`users/forms.py`)**
-  - [ ] 3.1.1 Criar `SignUpForm(StyledFormMixin, UserCreationForm)` com `model = User` e `fields = ('first_name', 'last_name', 'email')`.
-  - [ ] 3.1.2 Definir labels em português (Nome, Sobrenome, E-mail, Senha, Confirmação de senha).
-  - [ ] 3.1.3 Tornar `first_name` e `last_name` obrigatórios.
-  - [ ] 3.1.4 Criar `LoginForm(StyledFormMixin, AuthenticationForm)` com label "E-mail" no campo `username`.
-  - [ ] 3.1.5 Personalizar a mensagem de erro de credenciais inválidas em português.
-- [ ] **3.2 Views (`users/views.py`)**
-  - [ ] 3.2.1 Criar `SignUpView(CreateView)` com `SignUpForm` e template `users/signup.html`.
-  - [ ] 3.2.2 Em `form_valid`, salvar o usuário e chamar `login()` antes do redirecionamento.
-  - [ ] 3.2.3 Definir `success_url = reverse_lazy('dashboard')`.
-  - [ ] 3.2.4 Redirecionar usuário já autenticado que acessar `/signup/` para o dashboard.
-  - [ ] 3.2.5 Criar `UserLoginView(LoginView)` com `LoginForm`, template `users/login.html` e `redirect_authenticated_user = True`.
-  - [ ] 3.2.6 Usar `LogoutView` nativa (POST).
-- [ ] **3.3 URLs e settings**
-  - [ ] 3.3.1 Criar `users/urls.py` com `signup`, `login` e `logout`.
-  - [ ] 3.3.2 Incluir `users.urls` em `core/urls.py`.
-  - [ ] 3.3.3 Definir `LOGIN_URL = 'login'`, `LOGIN_REDIRECT_URL = 'dashboard'` e `LOGOUT_REDIRECT_URL = 'home'`.
-- [ ] **3.4 Templates**
-  - [ ] 3.4.1 `users/signup.html`: card centralizado, logo, título "Crie sua conta", campos e botão "Cadastrar".
-  - [ ] 3.4.2 Link "Já tem conta? Entrar" no rodapé do card.
-  - [ ] 3.4.3 `users/login.html`: card centralizado, título "Bem-vindo de volta", campos e botão "Entrar".
-  - [ ] 3.4.4 Link "Ainda não tem conta? Cadastre-se" no rodapé do card.
-  - [ ] 3.4.5 Fundo com glow em gradiente (seção 9.2) nas duas telas.
-- [ ] **3.5 Dashboard provisório**
-  - [ ] 3.5.1 Criar `DashboardView(LoginRequiredMixin, TemplateView)` em `core/views.py`.
-  - [ ] 3.5.2 Criar `templates/dashboard.html` estendendo `base_app.html` com título "Dashboard".
-  - [ ] 3.5.3 Registrar rota `dashboard/` com `name='dashboard'`.
-- [ ] **3.6 Validação manual**
-  - [ ] 3.6.1 Cadastrar usuário novo e confirmar redirecionamento ao dashboard.
-  - [ ] 3.6.2 Tentar cadastrar e-mail duplicado e conferir mensagem.
-  - [ ] 3.6.3 Fazer logout e login com e-mail.
-  - [ ] 3.6.4 Acessar `/dashboard/` deslogado e confirmar redirecionamento ao login.
+- [X] **3.1 Formulários (`users/forms.py`)**
+  - [X] 3.1.1 Criar `SignUpForm(StyledFormMixin, UserCreationForm)` com `model = User` e `fields = ('first_name', 'last_name', 'email')`.
+  - [X] 3.1.2 Definir labels em português (Nome, Sobrenome, E-mail, Senha, Confirmação de senha).
+  - [X] 3.1.3 Tornar `first_name` e `last_name` obrigatórios.
+  - [X] 3.1.4 Criar `LoginForm(StyledFormMixin, AuthenticationForm)` com label "E-mail" no campo `username`.
+  - [X] 3.1.5 Personalizar a mensagem de erro de credenciais inválidas em português.
+- [X] **3.2 Views (`users/views.py`)**
+  - [X] 3.2.1 Criar `SignUpView(CreateView)` com `SignUpForm` e template `users/signup.html`.
+  - [X] 3.2.2 Em `form_valid`, salvar o usuário e chamar `login()` antes do redirecionamento.
+  - [X] 3.2.3 Definir `success_url = reverse_lazy('dashboard')`.
+  - [X] 3.2.4 Redirecionar usuário já autenticado que acessar `/signup/` para o dashboard.
+  - [X] 3.2.5 Criar `UserLoginView(LoginView)` com `LoginForm`, template `users/login.html` e `redirect_authenticated_user = True`.
+  - [X] 3.2.6 Usar `LogoutView` nativa (POST).
+- [X] **3.3 URLs e settings**
+  - [X] 3.3.1 Criar `users/urls.py` com `signup`, `login` e `logout`.
+  - [X] 3.3.2 Incluir `users.urls` em `core/urls.py`.
+  - [X] 3.3.3 Definir `LOGIN_URL = 'login'`, `LOGIN_REDIRECT_URL = 'dashboard'` e `LOGOUT_REDIRECT_URL = 'home'`.
+- [X] **3.4 Templates**
+  - [X] 3.4.1 `users/signup.html`: card centralizado, logo, título "Crie sua conta", campos e botão "Cadastrar".
+  - [X] 3.4.2 Link "Já tem conta? Entrar" no rodapé do card.
+  - [X] 3.4.3 `users/login.html`: card centralizado, título "Bem-vindo de volta", campos e botão "Entrar".
+  - [X] 3.4.4 Link "Ainda não tem conta? Cadastre-se" no rodapé do card.
+  - [X] 3.4.5 Fundo com glow em gradiente (seção 9.2) nas duas telas.
+- [X] **3.5 Dashboard provisório**
+  - [X] 3.5.1 Criar `DashboardView(LoginRequiredMixin, TemplateView)` em `core/views.py`.
+  - [X] 3.5.2 Criar `templates/dashboard.html` estendendo `base_app.html` com título "Dashboard".
+  - [X] 3.5.3 Registrar rota `dashboard/` com `name='dashboard'`.
+- [X] **3.6 Validação manual**
+  - [X] 3.6.1 Cadastrar usuário novo e confirmar redirecionamento ao dashboard.
+  - [X] 3.6.2 Tentar cadastrar e-mail duplicado e conferir mensagem.
+  - [X] 3.6.3 Fazer logout e login com e-mail.
+  - [X] 3.6.4 Acessar `/dashboard/` deslogado e confirmar redirecionamento ao login.
 
 ### Sprint 4 — Perfil
 

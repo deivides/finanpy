@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}Cadastro | Finanpy{% endblock %}
+
+{% block body %}
+  {% url 'home' as home_url %}
+  {% url 'login' as login_url %}
+  {# Glow de fundo da PRD 9.2 em tela cheia #}
+  <div class="flex min-h-screen items-center justify-center bg-gradient-to-br from-violet-600/20 via-slate-950 to-cyan-500/10 px-4 py-10 md:px-8">
+    <main class="w-full max-w-xl">
+      <div class="mb-6 text-center">
+        <a href="{{ home_url }}" class="rounded-lg bg-gradient-to-r from-violet-400 to-cyan-400 bg-clip-text text-3xl font-bold text-transparent focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500/50">Finanpy</a>
+      </div>
+
+      <div class="card space-y-6">
+        <div class="space-y-1 text-center">
+          <h1 class="text-2xl md:text-3xl font-bold text-slate-100">Crie sua conta</h1>
+          <p class="text-sm md:text-base text-slate-400">Comece a organizar suas finanças em poucos minutos.</p>
+        </div>
+
+        {% include 'components/_messages.html' %}
+
+        <form method="post" class="space-y-5">
+          {% csrf_token %}
+          {% include 'components/_non_field_errors.html' %}
+
+          <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
+            {% include 'components/_form_field.html' with field=form.first_name %}
+            {% include 'components/_form_field.html' with field=form.last_name %}
+          </div>
+          {% include 'components/_form_field.html' with field=form.email %}
+          {% include 'components/_form_field.html' with field=form.password1 %}
+          {% include 'components/_form_field.html' with field=form.password2 %}
+
+          <button type="submit" class="btn-primary w-full">Cadastrar</button>
+        </form>
+
+        <p class="border-t border-slate-800 pt-5 text-center text-sm text-slate-400">
+          Já tem conta?
+          <a href="{{ login_url }}" class="rounded font-medium text-cyan-400 hover:text-cyan-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500/50">Entrar</a>
+        </p>
+      </div>
+    </main>
+  </div>
+{% endblock %}

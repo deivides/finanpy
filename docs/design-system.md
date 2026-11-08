@@ -26,7 +26,7 @@ Visual guidelines defined in the [PRD](../PRD.md) (section 9). There are no temp
 | `warning` | Alerts | `amber-400` |
 | `text-primary` | Main text | `text-slate-100` |
 | `text-secondary` | Supporting text | `text-slate-400` |
-| `text-muted` | Placeholders, captions | `text-slate-500` |
+| `text-muted` | Placeholders and disabled text | `text-slate-500` |
 
 ## Gradients
 
@@ -47,7 +47,7 @@ Visual guidelines defined in the [PRD](../PRD.md) (section 9). There are no temp
 | H2 | `text-xl font-semibold text-slate-100` |
 | H3 (card) | `text-sm font-medium text-slate-400 uppercase tracking-wide` |
 | Body | `text-sm md:text-base text-slate-300` |
-| Caption | `text-xs text-slate-500` |
+| Caption | `text-xs text-slate-400` (`slate-500` fails AA contrast on the dark background) |
 | Large monetary value | `text-3xl font-bold tabular-nums` |
 
 ## Components

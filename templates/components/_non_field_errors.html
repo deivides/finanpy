@@ -1,0 +1,13 @@
+{% comment %}
+  Erros gerais do formulário (PRD 9.6), exibidos no topo do form.
+  Uso: {% include 'components/_non_field_errors.html' %} (lê form.non_field_errors do contexto).
+{% endcomment %}
+{% if form.non_field_errors %}
+  <div class="rounded-xl bg-rose-500/10 p-3 text-sm text-rose-300" role="alert">
+    <ul class="space-y-0.5">
+      {% for error in form.non_field_errors %}
+        <li>{{ error }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endif %}
