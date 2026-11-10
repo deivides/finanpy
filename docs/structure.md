@@ -16,7 +16,7 @@ finanpy
 ├── transactions/      # income and expenses
 ├── users/             # system user
 ├── docs/              # this documentation
-├── templates/         # project templates (empty for now)
+├── templates/         # project templates (base, home, dashboard, one folder per app)
 │   └── components/    # partials
 ├── manage.py
 ├── README.md
@@ -49,14 +49,22 @@ Additional files planned in the PRD for each app, created as needed: `forms.py`,
 | `LANGUAGES` | `pt-br` (default) and `en-us` |
 | `TIME_ZONE` | `'America/Sao_Paulo'` |
 | `USE_I18N` / `USE_TZ` | `True` |
+| `USE_THOUSAND_SEPARATOR` | `True` (pt-BR money as `1.234,56`) |
 | `AUTH_PASSWORD_VALIDATORS` | native Django validators |
 | `MAILERS` | console backend |
 | `DEBUG` | `True` |
 
 ## URLs (`core/urls.py`)
 
-| URL | Target |
-|---|---|
-| `admin/` | Django Admin |
+| URL | Name | Target |
+|---|---|---|
+| `/` | `home` | `HomeView` (public) |
+| `dashboard/` | `dashboard` | `DashboardView` |
+| `signup/`, `login/`, `logout/` | `signup`, `login`, `logout` | `users.urls` |
+| `profile/` | `profile` | `profiles.urls` |
+| `accounts/`, `accounts/new/`, `accounts/<pk>/edit/`, `accounts/<pk>/delete/` | `account_list`, `account_create`, `account_update`, `account_delete` | `accounts.urls` |
+| `categories/` (same pattern) | `category_list`, `category_create`, `category_update`, `category_delete` | `categories.urls` |
+| `transactions/` (same pattern; list accepts `?month=AAAA-MM&type=income\|expense&page=N`) | `transaction_list`, `transaction_create`, `transaction_update`, `transaction_delete` | `transactions.urls` |
+| `admin/` | — | Django Admin |
 
 Each app's URLs must live in `<app>/urls.py` and be included in `core/urls.py`.

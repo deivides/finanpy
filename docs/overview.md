@@ -29,4 +29,4 @@ Installed dependencies (`requirements.txt`):
 | `categories` | Transaction categories |
 | `transactions` | Income and expense transactions |
 
-> Current state: the apps have been created and registered in `INSTALLED_APPS`, but they do not have models, views, URLs or templates yet. The only existing route is `admin/`.
+> Current state: Sprints 0–7 are implemented: custom user, profile, bank accounts (with computed balance), categories and transactions (CRUD, month/type filters, filtered totals, pagination). The dashboard is still a placeholder (Sprint 8); automated tests (Sprint 9) and Docker (Sprint 10) are pending.

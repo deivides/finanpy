@@ -32,12 +32,13 @@
 
           <div>
             <h3 class="text-sm font-medium text-slate-400 uppercase tracking-wide">Saldo</h3>
-            {# Provisório: exibe initial_balance até a tarefa 7.2, quando passa a usar account.balance. #}
-            {% if account.initial_balance < 0 %}
-              <p class="mt-1 text-2xl font-bold tabular-nums text-rose-400">−R$ {{ account.initial_balance|floatformat:"2g"|cut:"-" }}</p>
-            {% else %}
-              <p class="mt-1 text-2xl font-bold tabular-nums text-slate-100">R$ {{ account.initial_balance|floatformat:"2g" }}</p>
-            {% endif %}
+            {% with balance=account.balance %}
+              {% if balance < 0 %}
+                <p class="mt-1 text-2xl font-bold tabular-nums text-rose-400">−R$ {{ balance|floatformat:"2g"|cut:"-" }}</p>
+              {% else %}
+                <p class="mt-1 text-2xl font-bold tabular-nums text-slate-100">R$ {{ balance|floatformat:"2g" }}</p>
+              {% endif %}
+            {% endwith %}
           </div>
 
           <div class="mt-auto flex justify-end gap-2 border-t border-slate-800 pt-4">

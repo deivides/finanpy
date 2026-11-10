@@ -227,57 +227,57 @@
 
 ### Sprint 7 — Transações
 
-- [ ] **7.1 Model `Transaction` (`transactions/models.py`)**
-  - [ ] 7.1.1 Criar `TransactionType(models.TextChoices)`: `INCOME='income','Entrada'`, `EXPENSE='expense','Saída'`.
-  - [ ] 7.1.2 Criar `Transaction` com `user` (FK, `related_name='transactions'`).
-  - [ ] 7.1.3 Adicionar `account` (FK `Account`, `on_delete=CASCADE`, `related_name='transactions'`).
-  - [ ] 7.1.4 Adicionar `category` (FK `Category`, `on_delete=PROTECT`, `related_name='transactions'`).
-  - [ ] 7.1.5 Adicionar `description` (`max_length=200`), `amount` (`DecimalField(12, 2)` com `MinValueValidator(Decimal('0.01'))`).
-  - [ ] 7.1.6 Adicionar `transaction_type` com choices e `date` (`DateField`, default `timezone.localdate`).
-  - [ ] 7.1.7 Adicionar `created_at` e `updated_at`.
-  - [ ] 7.1.8 Definir `Meta.ordering = ['-date', '-created_at']`.
-  - [ ] 7.1.9 Implementar `__str__` com descrição e valor.
-  - [ ] 7.1.10 Rodar `makemigrations transactions` e `migrate`.
-- [ ] **7.2 Saldo da conta**
-  - [ ] 7.2.1 Implementar a propriedade `Account.balance` usando `aggregate(Sum)` por tipo de transação.
-  - [ ] 7.2.2 Tratar `None` do `Sum` com `Coalesce` ou `or Decimal('0')`.
-- [ ] **7.3 Admin**
-  - [ ] 7.3.1 Registrar com `list_display = ('date', 'description', 'transaction_type', 'amount', 'account', 'category', 'user')`.
-  - [ ] 7.3.2 Adicionar `list_filter = ('transaction_type', 'date')` e `date_hierarchy = 'date'`.
-- [ ] **7.4 Formulário**
-  - [ ] 7.4.1 Criar `TransactionForm(StyledFormMixin, ModelForm)` com `description`, `amount`, `transaction_type`, `date`, `account`, `category`.
-  - [ ] 7.4.2 Receber `user` no `__init__` e filtrar `account.queryset` e `category.queryset` pelo usuário.
-  - [ ] 7.4.3 Configurar `date` com `DateInput(attrs={'type': 'date'}, format='%Y-%m-%d')`.
-  - [ ] 7.4.4 Validar no `clean()` que `category.category_type == transaction_type`, com erro "A categoria selecionada não corresponde ao tipo da transação."
-  - [ ] 7.4.5 Definir labels em português (Descrição, Valor, Tipo, Data, Conta, Categoria).
-- [ ] **7.5 Views**
-  - [ ] 7.5.1 `TransactionListView` com `paginate_by = 20` e `select_related('account', 'category')`.
-  - [ ] 7.5.2 Filtro por mês/ano via querystring (`?month=AAAA-MM`) aplicado em `get_queryset()`.
-  - [ ] 7.5.3 Filtro por tipo via querystring (`?type=income|expense`).
-  - [ ] 7.5.4 Enviar ao contexto os valores atuais dos filtros e os totais de entradas e saídas do resultado filtrado.
-  - [ ] 7.5.5 `TransactionCreateView` passando `user` em `get_form_kwargs()` e atribuindo `form.instance.user`.
-  - [ ] 7.5.6 `TransactionUpdateView` com queryset filtrado e `user` no form.
-  - [ ] 7.5.7 `TransactionDeleteView` com página de confirmação.
-  - [ ] 7.5.8 Mensagens de sucesso em português para criar, editar e excluir.
-- [ ] **7.6 URLs**
-  - [ ] 7.6.1 Criar `transactions/urls.py` com `transaction_list`, `transaction_create`, `transaction_update`, `transaction_delete`.
-  - [ ] 7.6.2 Incluir em `core/urls.py` sob `transactions/`.
-- [ ] **7.7 Templates**
-  - [ ] 7.7.1 `transactions/transaction_list.html` com cabeçalho e botão "Nova transação".
-  - [ ] 7.7.2 Barra de filtros (input `month`, select de tipo, botão "Filtrar" e link "Limpar").
-  - [ ] 7.7.3 Cards de totais do filtro (Entradas / Saídas).
-  - [ ] 7.7.4 Tabela com Data, Descrição, Categoria, Conta, Valor (cor por tipo) e Ações.
-  - [ ] 7.7.5 Formatação de valores com `floatformat:2` e localização pt-BR (`USE_THOUSAND_SEPARATOR = True`).
-  - [ ] 7.7.6 Incluir `_pagination.html` preservando filtros.
-  - [ ] 7.7.7 Estado vazio "Nenhuma transação encontrada."
-  - [ ] 7.7.8 `transactions/transaction_form.html` (criar/editar).
-  - [ ] 7.7.9 `transactions/transaction_confirm_delete.html`.
-  - [ ] 7.7.10 Adicionar link "Transações" na sidebar.
-- [ ] **7.8 Validação manual**
-  - [ ] 7.8.1 Criar entradas e saídas e conferir o saldo das contas.
-  - [ ] 7.8.2 Tentar salvar transação com tipo incompatível com a categoria.
-  - [ ] 7.8.3 Testar filtros e paginação.
-  - [ ] 7.8.4 Tentar excluir categoria com transações e conferir bloqueio.
+- [X] **7.1 Model `Transaction` (`transactions/models.py`)**
+  - [X] 7.1.1 Criar `TransactionType(models.TextChoices)`: `INCOME='income','Entrada'`, `EXPENSE='expense','Saída'`.
+  - [X] 7.1.2 Criar `Transaction` com `user` (FK, `related_name='transactions'`).
+  - [X] 7.1.3 Adicionar `account` (FK `Account`, `on_delete=CASCADE`, `related_name='transactions'`).
+  - [X] 7.1.4 Adicionar `category` (FK `Category`, `on_delete=PROTECT`, `related_name='transactions'`).
+  - [X] 7.1.5 Adicionar `description` (`max_length=200`), `amount` (`DecimalField(12, 2)` com `MinValueValidator(Decimal('0.01'))`).
+  - [X] 7.1.6 Adicionar `transaction_type` com choices e `date` (`DateField`, default `timezone.localdate`).
+  - [X] 7.1.7 Adicionar `created_at` e `updated_at`.
+  - [X] 7.1.8 Definir `Meta.ordering = ['-date', '-created_at']`.
+  - [X] 7.1.9 Implementar `__str__` com descrição e valor.
+  - [X] 7.1.10 Rodar `makemigrations transactions` e `migrate`.
+- [X] **7.2 Saldo da conta**
+  - [X] 7.2.1 Implementar a propriedade `Account.balance` usando `aggregate(Sum)` por tipo de transação.
+  - [X] 7.2.2 Tratar `None` do `Sum` com `Coalesce` ou `or Decimal('0')`.
+- [X] **7.3 Admin**
+  - [X] 7.3.1 Registrar com `list_display = ('date', 'description', 'transaction_type', 'amount', 'account', 'category', 'user')`.
+  - [X] 7.3.2 Adicionar `list_filter = ('transaction_type', 'date')` e `date_hierarchy = 'date'`.
+- [X] **7.4 Formulário**
+  - [X] 7.4.1 Criar `TransactionForm(StyledFormMixin, ModelForm)` com `description`, `amount`, `transaction_type`, `date`, `account`, `category`.
+  - [X] 7.4.2 Receber `user` no `__init__` e filtrar `account.queryset` e `category.queryset` pelo usuário.
+  - [X] 7.4.3 Configurar `date` com `DateInput(attrs={'type': 'date'}, format='%Y-%m-%d')`.
+  - [X] 7.4.4 Validar no `clean()` que `category.category_type == transaction_type`, com erro "A categoria selecionada não corresponde ao tipo da transação."
+  - [X] 7.4.5 Definir labels em português (Descrição, Valor, Tipo, Data, Conta, Categoria).
+- [X] **7.5 Views**
+  - [X] 7.5.1 `TransactionListView` com `paginate_by = 20` e `select_related('account', 'category')`.
+  - [X] 7.5.2 Filtro por mês/ano via querystring (`?month=AAAA-MM`) aplicado em `get_queryset()`.
+  - [X] 7.5.3 Filtro por tipo via querystring (`?type=income|expense`).
+  - [X] 7.5.4 Enviar ao contexto os valores atuais dos filtros e os totais de entradas e saídas do resultado filtrado.
+  - [X] 7.5.5 `TransactionCreateView` passando `user` em `get_form_kwargs()` e atribuindo `form.instance.user`.
+  - [X] 7.5.6 `TransactionUpdateView` com queryset filtrado e `user` no form.
+  - [X] 7.5.7 `TransactionDeleteView` com página de confirmação.
+  - [X] 7.5.8 Mensagens de sucesso em português para criar, editar e excluir.
+- [X] **7.6 URLs**
+  - [X] 7.6.1 Criar `transactions/urls.py` com `transaction_list`, `transaction_create`, `transaction_update`, `transaction_delete`.
+  - [X] 7.6.2 Incluir em `core/urls.py` sob `transactions/`.
+- [X] **7.7 Templates**
+  - [X] 7.7.1 `transactions/transaction_list.html` com cabeçalho e botão "Nova transação".
+  - [X] 7.7.2 Barra de filtros (input `month`, select de tipo, botão "Filtrar" e link "Limpar").
+  - [X] 7.7.3 Cards de totais do filtro (Entradas / Saídas).
+  - [X] 7.7.4 Tabela com Data, Descrição, Categoria, Conta, Valor (cor por tipo) e Ações.
+  - [X] 7.7.5 Formatação de valores com `floatformat:2` e localização pt-BR (`USE_THOUSAND_SEPARATOR = True`).
+  - [X] 7.7.6 Incluir `_pagination.html` preservando filtros.
+  - [X] 7.7.7 Estado vazio "Nenhuma transação encontrada."
+  - [X] 7.7.8 `transactions/transaction_form.html` (criar/editar).
+  - [X] 7.7.9 `transactions/transaction_confirm_delete.html`.
+  - [X] 7.7.10 Adicionar link "Transações" na sidebar.
+- [X] **7.8 Validação manual**
+  - [X] 7.8.1 Criar entradas e saídas e conferir o saldo das contas.
+  - [X] 7.8.2 Tentar salvar transação com tipo incompatível com a categoria.
+  - [X] 7.8.3 Testar filtros e paginação.
+  - [X] 7.8.4 Tentar excluir categoria com transações e conferir bloqueio.
 
 ### Sprint 8 — Dashboard e refinamentos visuais
 

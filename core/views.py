@@ -19,8 +19,8 @@ class UserFormKwargsMixin:
     """Pass the logged-in user to the form as the `user` keyword argument.
 
     Required by forms that validate or filter data per user: the category
-    create/update views (`CategoryForm` duplicate check) and, later, the
-    transaction views (account/category querysets).
+    create/update views (`CategoryForm` duplicate check) and the
+    transaction create/update views (account/category querysets).
     """
 
     def get_form_kwargs(self):
