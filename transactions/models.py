@@ -26,7 +26,7 @@ class Transaction(models.Model):
     )
     category = models.ForeignKey(
         'categories.Category',
-        on_delete=models.PROTECT,
+        on_delete=models.RESTRICT,
         related_name='transactions',
         verbose_name='categoria',
     )

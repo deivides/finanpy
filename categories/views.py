@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
-from django.db.models import ProtectedError
+from django.db.models import RestrictedError
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView
@@ -63,11 +63,13 @@ class CategoryDeleteView(LoginRequiredMixin, UserQuerySetMixin, DeleteView):
     success_url = reverse_lazy('category_list')
 
     def form_valid(self, form):
-        # Transaction.category uses on_delete=PROTECT, so a category that is
-        # still referenced by transactions raises ProtectedError on delete.
+        # Transaction.category uses on_delete=RESTRICT, so a category that is
+        # still referenced by transactions raises RestrictedError on delete
+        # (unless the transactions are deleted in the same operation, e.g.
+        # when the whole user is deleted).
         try:
             response = super().form_valid(form)
-        except ProtectedError:
+        except RestrictedError:
             messages.error(
                 self.request,
                 'Esta categoria possui transações e não pode ser excluída.',

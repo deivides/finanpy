@@ -33,7 +33,14 @@ class UserAdmin(BaseUserAdmin):
         ),
         (
             'Datas importantes',
-            {'fields': ('last_login', 'date_joined', 'created_at', 'updated_at')},
+            {
+                'fields': (
+                    'last_login',
+                    'date_joined',
+                    'created_at',
+                    'updated_at',
+                ),
+            },
         ),
     )
     add_fieldsets = (

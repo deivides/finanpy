@@ -1,5 +1,13 @@
+from decimal import Decimal
+
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import DecimalField, Q, Sum, Value
+from django.db.models.functions import Coalesce
+from django.utils import timezone
 from django.views.generic import TemplateView
+
+from accounts.models import Account
+from transactions.models import Transaction, TransactionType
 
 
 class UserQuerySetMixin:
@@ -35,3 +43,53 @@ class HomeView(TemplateView):
 
 class DashboardView(LoginRequiredMixin, TemplateView):
     template_name = 'dashboard.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+        today = timezone.localdate()
+
+        # Account.balance runs one aggregate query per account, so compute
+        # it once here and keep it on the instance for the template.
+        accounts = list(Account.objects.filter(user=user))
+        total_balance = Decimal('0')
+        for account in accounts:
+            account.current_balance = account.balance
+            total_balance += account.current_balance
+
+        transactions = Transaction.objects.filter(user=user)
+
+        money = DecimalField(max_digits=12, decimal_places=2)
+        zero = Value(Decimal('0'), output_field=money)
+        totals = transactions.filter(
+            date__year=today.year,
+            date__month=today.month,
+        ).aggregate(
+            income=Coalesce(
+                Sum(
+                    'amount',
+                    filter=Q(transaction_type=TransactionType.INCOME),
+                ),
+                zero,
+                output_field=money,
+            ),
+            expense=Coalesce(
+                Sum(
+                    'amount',
+                    filter=Q(transaction_type=TransactionType.EXPENSE),
+                ),
+                zero,
+                output_field=money,
+            ),
+        )
+
+        context['today'] = today
+        context['accounts'] = accounts
+        context['total_balance'] = total_balance
+        context['month_income'] = totals['income']
+        context['month_expense'] = totals['expense']
+        context['month_result'] = totals['income'] - totals['expense']
+        context['recent_transactions'] = transactions.select_related(
+            'account', 'category'
+        )[:5]
+        return context

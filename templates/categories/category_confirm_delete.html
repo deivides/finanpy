@@ -5,7 +5,7 @@
 {% block content %}
   {% url 'category_list' as category_list_url %}
   <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
-    <div>
+    <div class="min-w-0">
       <h1 class="text-2xl md:text-3xl font-bold text-slate-100">Excluir categoria</h1>
       <p class="mt-1 text-sm md:text-base text-slate-400">Esta ação não pode ser desfeita.</p>
     </div>
@@ -14,7 +14,7 @@
   <div class="card max-w-xl">
     <form method="post" class="space-y-5">
       {% csrf_token %}
-      <p class="text-sm md:text-base text-slate-300">Tem certeza de que deseja excluir a categoria <strong class="font-semibold text-slate-100">{{ object.name }}</strong>?</p>
+      <p class="break-words text-sm md:text-base text-slate-300">Tem certeza de que deseja excluir a categoria <strong class="font-semibold text-slate-100">{{ object.name }}</strong>?</p>
 
       <div class="rounded-xl bg-amber-500/10 p-3 text-sm text-amber-300 ring-1 ring-amber-500/30" role="note">
         Categorias com transações vinculadas não podem ser excluídas.

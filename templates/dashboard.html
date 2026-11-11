@@ -3,11 +3,158 @@
 {% block title %}Dashboard | Finanpy{% endblock %}
 
 {% block content %}
-  {# Dashboard provisório (tarefa 3.5.2). Cards de resumo e dados chegam na Sprint 8. #}
-  <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
-    <div>
-      <h1 class="text-2xl md:text-3xl font-bold text-slate-100">Dashboard</h1>
-      <p class="mt-1 text-sm md:text-base text-slate-400">Olá{% if request.user.first_name %}, {{ request.user.first_name }}{% endif %}! Que bom ter você aqui.</p>
+  {% url 'transaction_create' as transaction_create_url %}
+  {% url 'account_create' as account_create_url %}
+  {% url 'category_create' as category_create_url %}
+  {% with month_label=today|date:'F \d\e Y'|lower %}
+
+    {# 8.2.1 Saudação + 8.2.6 atalhos. "Nova transação" é o único btn-primary da tela. #}
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+      <div class="min-w-0">
+        <h1 class="break-words text-2xl md:text-3xl font-bold text-slate-100">Olá{% if request.user.first_name %}, {{ request.user.first_name }}{% endif %}!</h1>
+        <p class="mt-1 text-sm md:text-base text-slate-400">Resumo de <span class="text-slate-300">{{ month_label }}</span></p>
+      </div>
+      <nav class="flex flex-wrap gap-3" aria-label="Atalhos">
+        <a href="{{ transaction_create_url }}" class="btn-primary">Nova transação</a>
+        <a href="{{ account_create_url }}" class="btn-secondary">Nova conta</a>
+        <a href="{{ category_create_url }}" class="btn-secondary">Nova categoria</a>
+      </nav>
     </div>
+
+    {# 8.2.2 / 8.2.3 Cards de resumo. #}
+    <div class="mb-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+      <section class="flex flex-col gap-4 rounded-2xl bg-gradient-to-br from-violet-600 to-indigo-700 p-5 md:p-6 text-white shadow-xl shadow-violet-900/40 sm:col-span-2 lg:col-span-1" aria-labelledby="total-balance-title">
+        <div>
+          <h2 id="total-balance-title" class="text-sm font-medium uppercase tracking-wide text-violet-100">Saldo total</h2>
+          {% if total_balance < 0 %}
+            <p class="mt-1 break-words text-3xl font-bold tabular-nums">−R$ {{ total_balance|floatformat:"2g"|cut:"-" }}</p>
+          {% else %}
+            <p class="mt-1 break-words text-3xl font-bold tabular-nums">R$ {{ total_balance|floatformat:"2g" }}</p>
+          {% endif %}
+        </div>
+        {# Resultado do mês em branco: emerald/rose não têm contraste suficiente sobre o gradiente. #}
+        <p class="mt-auto flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1 border-t border-white/20 pt-3 text-sm">
+          <span class="text-violet-100">Resultado do mês</span>
+          {# Zero sai sem sinal (R$ 0,00): não é ganho nem perda. #}
+          <span class="font-semibold tabular-nums">{% if month_result < 0 %}−R$ {{ month_result|floatformat:"2g"|cut:"-" }}{% elif month_result %}+R$ {{ month_result|floatformat:"2g" }}{% else %}R$ {{ month_result|floatformat:"2g" }}{% endif %}</span>
+        </p>
+      </section>
+
+      <section class="card" aria-labelledby="month-income-title">
+        <h2 id="month-income-title" class="text-sm font-medium text-slate-400 uppercase tracking-wide">Entradas do mês</h2>
+        {# Valor zero fica neutro (slate-100, sem sinal). #}
+        {% if month_income %}
+          <p class="mt-1 break-words text-2xl md:text-3xl font-bold tabular-nums text-emerald-400">+R$ {{ month_income|floatformat:"2g" }}</p>
+        {% else %}
+          <p class="mt-1 break-words text-2xl md:text-3xl font-bold tabular-nums text-slate-100">R$ {{ month_income|floatformat:"2g" }}</p>
+        {% endif %}
+      </section>
+
+      <section class="card" aria-labelledby="month-expense-title">
+        <h2 id="month-expense-title" class="text-sm font-medium text-slate-400 uppercase tracking-wide">Saídas do mês</h2>
+        {% if month_expense %}
+          <p class="mt-1 break-words text-2xl md:text-3xl font-bold tabular-nums text-rose-400">−R$ {{ month_expense|floatformat:"2g" }}</p>
+        {% else %}
+          <p class="mt-1 break-words text-2xl md:text-3xl font-bold tabular-nums text-slate-100">R$ {{ month_expense|floatformat:"2g" }}</p>
+        {% endif %}
+      </section>
+    </div>
+  {% endwith %}
+
+  {# Dois blocos: transações (principal) e contas. #}
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+    {# 8.2.4 Últimas transações. #}
+    <section class="card min-w-0 p-0 md:p-0 lg:col-span-2" aria-labelledby="recent-transactions-title">
+      <div class="flex items-center justify-between gap-3 px-5 pt-5 pb-3 md:px-6 md:pt-6">
+        <h2 id="recent-transactions-title" class="text-xl font-semibold text-slate-100">Últimas transações</h2>
+        {% if recent_transactions %}
+          {# -mr-3 compensa o px-3: o texto alinha com a borda direita da coluna "Valor"; o anel de foco continua inteiro. #}
+          <a href="{% url 'transaction_list' %}" class="btn-ghost -mr-3 shrink-0 px-3 py-1.5" aria-label="Ver todas as transações">Ver todas</a>
+        {% endif %}
+      </div>
+
+      {% if recent_transactions %}
+        {# relative: prende os .sr-only (position: absolute) ao recorte do overflow-x-auto. #}
+        <div class="relative overflow-x-auto">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col" class="hidden sm:table-cell sm:pl-6">Data</th>
+                <th scope="col" class="pl-5 pr-2 sm:px-4">Descrição</th>
+                <th scope="col" class="hidden md:table-cell">Categoria</th>
+                <th scope="col" class="pl-2 pr-5 text-right sm:pr-6">Valor</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for transaction in recent_transactions %}
+                <tr>
+                  <td class="hidden whitespace-nowrap tabular-nums sm:table-cell sm:pl-6">{{ transaction.date|date:"d/m/Y" }}</td>
+                  <td class="min-w-32 pl-5 pr-2 sm:px-4">
+                    <span class="wrap-anywhere font-medium text-slate-100">{{ transaction.description }}</span>
+                    {# Colunas ocultas viram uma linha aqui: a data abaixo de sm; a categoria abaixo de md. #}
+                    <span class="mt-0.5 block wrap-anywhere text-xs text-slate-400"><span class="tabular-nums sm:hidden">{{ transaction.date|date:"d/m/Y" }} · </span><span class="md:hidden">{{ transaction.category.name }} · </span>{{ transaction.account.name }}</span>
+                  </td>
+                  <td class="hidden min-w-28 md:table-cell">
+                    <span class="wrap-anywhere rounded-md {% if transaction.transaction_type == 'income' %}badge-income{% else %}badge-expense{% endif %}">{{ transaction.category.name }}</span>
+                  </td>
+                  <td class="whitespace-nowrap pl-2 pr-5 text-right font-semibold tabular-nums sm:pr-6">
+                    {% if transaction.transaction_type == 'income' %}
+                      <span class="text-emerald-400">+R$ {{ transaction.amount|floatformat:"2g" }}</span>
+                    {% else %}
+                      <span class="text-rose-400">−R$ {{ transaction.amount|floatformat:"2g" }}</span>
+                    {% endif %}
+                    <span class="sr-only">({{ transaction.get_transaction_type_display }})</span>
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <div class="h-2" aria-hidden="true"></div>
+      {% else %}
+        {# 8.2.7 Estados vazios: o CTA do partial é btn-secondary; o btn-primary fica no cabeçalho. #}
+        <div class="px-5 pb-5 md:px-6 md:pb-6">
+          {# Sem categoria o formulário de transação fica inutilizável: aponta para "Nova categoria" antes. #}
+          {% if accounts and request.user.categories.exists %}
+            {% include 'components/_empty_state.html' with text='Você ainda não registrou nenhuma transação.' button_label='Nova transação' button_url=transaction_create_url %}
+          {% elif accounts %}
+            {% include 'components/_empty_state.html' with text='Cadastre uma categoria para registrar sua primeira transação.' button_label='Nova categoria' button_url=category_create_url %}
+          {% else %}
+            {% include 'components/_empty_state.html' with text='Cadastre uma conta e uma categoria para registrar sua primeira transação.' %}
+          {% endif %}
+        </div>
+      {% endif %}
+    </section>
+
+    {# 8.2.5 Minhas contas. #}
+    <section class="card min-w-0" aria-labelledby="my-accounts-title">
+      <div class="flex items-center justify-between gap-3">
+        <h2 id="my-accounts-title" class="text-xl font-semibold text-slate-100">Minhas contas</h2>
+        {% if accounts %}
+          <a href="{% url 'account_list' %}" class="btn-ghost -mr-3 shrink-0 px-3 py-1.5" aria-label="Gerenciar contas">Gerenciar</a>
+        {% endif %}
+      </div>
+
+      {% if accounts %}
+        <ul class="mt-3 divide-y divide-slate-800">
+          {% for account in accounts %}
+            <li class="flex items-center justify-between gap-3 py-3">
+              <div class="min-w-0">
+                <p class="wrap-anywhere font-medium text-slate-100">{{ account.name }}</p>
+                <p class="wrap-anywhere text-xs text-slate-400">{{ account.get_account_type_display }}{% if account.bank_name %} · {{ account.bank_name }}{% endif %}</p>
+              </div>
+              {% if account.current_balance < 0 %}
+                <p class="shrink-0 whitespace-nowrap font-semibold tabular-nums text-rose-400">−R$ {{ account.current_balance|floatformat:"2g"|cut:"-" }}</p>
+              {% else %}
+                <p class="shrink-0 whitespace-nowrap font-semibold tabular-nums text-slate-100">R$ {{ account.current_balance|floatformat:"2g" }}</p>
+              {% endif %}
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        {% include 'components/_empty_state.html' with text='Você ainda não cadastrou nenhuma conta.' button_label='Nova conta' button_url=account_create_url %}
+      {% endif %}
+    </section>
   </div>
 {% endblock %}

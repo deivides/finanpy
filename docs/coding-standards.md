@@ -11,7 +11,9 @@ Standards defined in the [PRD](../PRD.md) that all project code must follow.
 ## Style
 
 - Code follows **PEP 8**.
-- Use **single quotes** whenever possible.
+- Use **single quotes** whenever possible. Docstrings and multi-line strings use `"""` (PEP 257). Double quotes are accepted only when the string contains an apostrophe (for example the message in `manage.py`).
+- Maximum line length is 79 characters.
+- Both rules are checked by `ruff check .` (configuration in `ruff.toml`; see [setup.md](setup.md#lint-pep-8)). Migrations are exempt from the line-length rule only.
 
 ```python
 # correct

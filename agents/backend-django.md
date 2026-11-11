@@ -28,7 +28,7 @@ If the PRD and the code disagree, follow the PRD. Do not add features, apps, fie
 Before you write or change code that uses a Django API, look it up with the context7 MCP server. Your training data may describe an older Django.
 
 1. Call `mcp__context7__resolve-library-id` with `Django` and pick the official `django/django` library. Prefer the entry that matches version 6.x when one is listed.
-2. Call `mcp__context7__query-docs` with a focused question, for example "custom user model with email as USERNAME_FIELD and BaseUserManager", "LogoutView POST only", "SuccessMessageMixin with DeleteView form_valid", "ProtectedError on delete", "aggregate Sum with Coalesce and output_field DecimalField" or "UniqueConstraint".
+2. Call `mcp__context7__query-docs` with a focused question, for example "custom user model with email as USERNAME_FIELD and BaseUserManager", "LogoutView POST only", "SuccessMessageMixin with DeleteView form_valid", "RestrictedError on delete", "aggregate Sum with Coalesce and output_field DecimalField" or "UniqueConstraint".
 3. Follow the documented API. If the docs show that something in the PRD is deprecated or removed in Django 6.x, use the current API and say so in your report.
 
 Do at least one context7 lookup for each new Django feature you touch in a task. Name the topics you looked up in your final report.
@@ -41,7 +41,7 @@ Do at least one context7 lookup for each new Django feature you touch in a task.
 - **Data isolation (PRD R2):** every view that touches user data uses `LoginRequiredMixin` + `UserQuerySetMixin`, so `get_queryset()` is filtered by `request.user`. A pk that belongs to another user must return a 404. Create views set `form.instance.user = self.request.user`. Forms that select related objects receive `user` through `get_form_kwargs()` and filter their `account`/`category` querysets by it.
 - **Money:** always `DecimalField(max_digits=12, decimal_places=2)` and `Decimal`. Never use `float`.
 - **`Account.balance`** is a `@property`: `initial_balance` + sum of income − sum of expenses, computed with `aggregate(Sum)` and with `None` handled (`Coalesce` or `or Decimal('0')`). It is never a stored field and is never updated by signals.
-- **`Transaction`:** `amount` is always positive (`MinValueValidator(Decimal('0.01'))`) and `transaction_type` gives the sign. `account` uses `on_delete=CASCADE`. `category` uses `on_delete=PROTECT`, so the category delete view catches `ProtectedError` and shows "Esta categoria possui transações e não pode ser excluída.". `TransactionForm.clean()` checks that `category.category_type == transaction_type`.
+- **`Transaction`:** `amount` is always positive (`MinValueValidator(Decimal('0.01'))`) and `transaction_type` gives the sign. `account` uses `on_delete=CASCADE`. `category` uses `on_delete=RESTRICT`, so the category delete view catches `RestrictedError` and shows "Esta categoria possui transações e não pode ser excluída.". `TransactionForm.clean()` checks that `category.category_type == transaction_type`.
 - **`Category`** has `UniqueConstraint(fields=['user', 'name', 'category_type'], name='unique_user_category')`. The form also checks for duplicates in `clean()`, because `user` is not a form field, and the error message is in Portuguese.
 - **Profile:** created by a `post_save` receiver in `profiles/signals.py`, which is imported in `ProfilesConfig.ready()`.
 - **Logout:** use the native `LogoutView`, which accepts POST only.

@@ -209,7 +209,7 @@
   - [X] 6.4.1 `CategoryListView` separando entradas e saídas no contexto.
   - [X] 6.4.2 `CategoryCreateView` atribuindo o usuário.
   - [X] 6.4.3 `CategoryUpdateView` com queryset filtrado.
-  - [X] 6.4.4 `CategoryDeleteView` capturando `ProtectedError` e exibindo "Esta categoria possui transações e não pode ser excluída."
+  - [X] 6.4.4 `CategoryDeleteView` capturando `RestrictedError` e exibindo "Esta categoria possui transações e não pode ser excluída."
   - [X] 6.4.5 Mensagens de sucesso para criar, editar e excluir.
 - [X] **6.5 URLs**
   - [X] 6.5.1 Criar `categories/urls.py` com `category_list`, `category_create`, `category_update`, `category_delete`.
@@ -231,7 +231,7 @@
   - [X] 7.1.1 Criar `TransactionType(models.TextChoices)`: `INCOME='income','Entrada'`, `EXPENSE='expense','Saída'`.
   - [X] 7.1.2 Criar `Transaction` com `user` (FK, `related_name='transactions'`).
   - [X] 7.1.3 Adicionar `account` (FK `Account`, `on_delete=CASCADE`, `related_name='transactions'`).
-  - [X] 7.1.4 Adicionar `category` (FK `Category`, `on_delete=PROTECT`, `related_name='transactions'`).
+  - [X] 7.1.4 Adicionar `category` (FK `Category`, `on_delete=RESTRICT`, `related_name='transactions'`).
   - [X] 7.1.5 Adicionar `description` (`max_length=200`), `amount` (`DecimalField(12, 2)` com `MinValueValidator(Decimal('0.01'))`).
   - [X] 7.1.6 Adicionar `transaction_type` com choices e `date` (`DateField`, default `timezone.localdate`).
   - [X] 7.1.7 Adicionar `created_at` e `updated_at`.
@@ -281,33 +281,33 @@
 
 ### Sprint 8 — Dashboard e refinamentos visuais
 
-- [ ] **8.1 Dados do dashboard (`DashboardView.get_context_data`)**
-  - [ ] 8.1.1 Buscar as contas do usuário e calcular o saldo total (soma de `balance`).
-  - [ ] 8.1.2 Calcular o total de entradas do mês corrente com `aggregate(Sum)`.
-  - [ ] 8.1.3 Calcular o total de saídas do mês corrente.
-  - [ ] 8.1.4 Calcular o resultado do mês (entradas − saídas).
-  - [ ] 8.1.5 Buscar as 5 últimas transações com `select_related`.
-- [ ] **8.2 Template do dashboard**
-  - [ ] 8.2.1 Saudação "Olá, {nome}" e mês corrente por extenso.
-  - [ ] 8.2.2 Card de saldo total com gradiente (`bg-gradient-to-br from-violet-600 to-indigo-700`).
-  - [ ] 8.2.3 Cards de entradas do mês (esmeralda) e saídas do mês (rosa).
-  - [ ] 8.2.4 Bloco "Últimas transações" (tabela compacta) com link "Ver todas".
-  - [ ] 8.2.5 Bloco "Minhas contas" com saldo por conta e link "Gerenciar".
-  - [ ] 8.2.6 Atalhos "Nova transação", "Nova conta" e "Nova categoria".
-  - [ ] 8.2.7 Estados vazios para usuário sem contas ou sem transações.
-- [ ] **8.3 Revisão do design system**
-  - [ ] 8.3.1 Revisar todas as telas garantindo uso exclusivo dos componentes definidos.
-  - [ ] 8.3.2 Garantir um único `btn-primary` por tela.
-  - [ ] 8.3.3 Revisar responsividade em 375px, 768px e 1280px em todas as telas.
-  - [ ] 8.3.4 Revisar estados de foco dos inputs e botões (acessibilidade por teclado).
-  - [ ] 8.3.5 Revisar todos os textos da interface (pt-BR, ortografia e consistência).
-  - [ ] 8.3.6 Adicionar `{% block title %}` específico em cada página ("Transações | Finanpy").
-- [ ] **8.4 Revisão de código**
-  - [ ] 8.4.1 Conferir aspas simples em todos os arquivos Python.
-  - [ ] 8.4.2 Rodar verificação PEP 8 (ex.: `ruff check` ou `flake8`) e corrigir apontamentos.
-  - [ ] 8.4.3 Conferir que todas as views de dados usam `LoginRequiredMixin` + `UserQuerySetMixin`.
-  - [ ] 8.4.4 Conferir que todos os models possuem `created_at` e `updated_at`.
-  - [ ] 8.4.5 Atualizar o `README.md` com instruções de instalação e execução.
+- [X] **8.1 Dados do dashboard (`DashboardView.get_context_data`)**
+  - [X] 8.1.1 Buscar as contas do usuário e calcular o saldo total (soma de `balance`).
+  - [X] 8.1.2 Calcular o total de entradas do mês corrente com `aggregate(Sum)`.
+  - [X] 8.1.3 Calcular o total de saídas do mês corrente.
+  - [X] 8.1.4 Calcular o resultado do mês (entradas − saídas).
+  - [X] 8.1.5 Buscar as 5 últimas transações com `select_related`.
+- [X] **8.2 Template do dashboard**
+  - [X] 8.2.1 Saudação "Olá, {nome}" e mês corrente por extenso.
+  - [X] 8.2.2 Card de saldo total com gradiente (`bg-gradient-to-br from-violet-600 to-indigo-700`).
+  - [X] 8.2.3 Cards de entradas do mês (esmeralda) e saídas do mês (rosa).
+  - [X] 8.2.4 Bloco "Últimas transações" (tabela compacta) com link "Ver todas".
+  - [X] 8.2.5 Bloco "Minhas contas" com saldo por conta e link "Gerenciar".
+  - [X] 8.2.6 Atalhos "Nova transação", "Nova conta" e "Nova categoria".
+  - [X] 8.2.7 Estados vazios para usuário sem contas ou sem transações.
+- [X] **8.3 Revisão do design system**
+  - [X] 8.3.1 Revisar todas as telas garantindo uso exclusivo dos componentes definidos.
+  - [X] 8.3.2 Garantir um único `btn-primary` por tela.
+  - [X] 8.3.3 Revisar responsividade em 375px, 768px e 1280px em todas as telas.
+  - [X] 8.3.4 Revisar estados de foco dos inputs e botões (acessibilidade por teclado).
+  - [X] 8.3.5 Revisar todos os textos da interface (pt-BR, ortografia e consistência).
+  - [X] 8.3.6 Adicionar `{% block title %}` específico em cada página ("Transações | Finanpy").
+- [X] **8.4 Revisão de código**
+  - [X] 8.4.1 Conferir aspas simples em todos os arquivos Python.
+  - [X] 8.4.2 Rodar verificação PEP 8 (ex.: `ruff check` ou `flake8`) e corrigir apontamentos.
+  - [X] 8.4.3 Conferir que todas as views de dados usam `LoginRequiredMixin` + `UserQuerySetMixin`.
+  - [X] 8.4.4 Conferir que todos os models possuem `created_at` e `updated_at`.
+  - [X] 8.4.5 Atualizar o `README.md` com instruções de instalação e execução.
 
 ### Sprint 9 — Testes automatizados
 

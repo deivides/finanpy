@@ -5,9 +5,9 @@
 {% block content %}
   {% url 'transaction_list' as transaction_list_url %}
   <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
-    <div>
+    <div class="min-w-0">
       <h1 class="text-2xl md:text-3xl font-bold text-slate-100">{% if object %}Editar transação{% else %}Nova transação{% endif %}</h1>
-      <p class="mt-1 text-sm md:text-base text-slate-400">{% if object %}Atualize os dados da transação {{ form.initial.description }}.{% else %}Registre uma entrada ou uma saída em uma de suas contas.{% endif %}</p>
+      <p class="mt-1 break-words text-sm md:text-base text-slate-400">{% if object %}Atualize os dados da transação {{ form.initial.description }}.{% else %}Registre uma entrada ou uma saída em uma de suas contas.{% endif %}</p>
     </div>
   </div>
 
@@ -15,6 +15,23 @@
     <form method="post" class="space-y-5">
       {% csrf_token %}
       {% include 'components/_non_field_errors.html' %}
+
+      {# Pré-requisitos: sem conta ou sem categoria os selects ficam vazios. Links simples para manter um só btn-primary. #}
+      {% with has_accounts=form.fields.account.queryset.exists has_categories=form.fields.category.queryset.exists %}
+        {% if not has_accounts or not has_categories %}
+          <div class="rounded-xl bg-amber-500/10 p-3 text-sm text-amber-300 ring-1 ring-amber-500/30" role="note">
+            <p>Para registrar uma transação, você precisa de pelo menos uma conta e uma categoria.</p>
+            <ul class="mt-2 flex flex-wrap gap-x-4 gap-y-1">
+              {% if not has_accounts %}
+                <li><a href="{% url 'account_create' %}" class="-mx-1 rounded-lg px-1 font-semibold underline underline-offset-2 hover:text-amber-200 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-violet-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900">Nova conta</a></li>
+              {% endif %}
+              {% if not has_categories %}
+                <li><a href="{% url 'category_create' %}" class="-mx-1 rounded-lg px-1 font-semibold underline underline-offset-2 hover:text-amber-200 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-violet-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900">Nova categoria</a></li>
+              {% endif %}
+            </ul>
+          </div>
+        {% endif %}
+      {% endwith %}
 
       {% include 'components/_form_field.html' with field=form.description %}
       <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">

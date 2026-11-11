@@ -375,7 +375,7 @@ erDiagram
         int id PK
         int user_id FK
         int account_id FK "on_delete=CASCADE"
-        int category_id FK "on_delete=PROTECT"
+        int category_id FK "on_delete=RESTRICT"
         string description
         decimal amount "max_digits=12, decimal_places=2, > 0"
         string transaction_type "income | expense"
@@ -391,7 +391,7 @@ erDiagram
 - `Category` possui `unique_together` (`user`, `name`, `category_type`).
 - `Account.balance` é uma **propriedade calculada** (`initial_balance + soma(entradas) − soma(saídas)`), sem campo persistido e sem signals.
 - `Transaction.amount` é sempre positivo; o sinal é dado por `transaction_type`.
-- Exclusão de conta exclui suas transações (`CASCADE`); exclusão de categoria com transações é bloqueada (`PROTECT`).
+- Exclusão de conta exclui suas transações (`CASCADE`); exclusão de categoria com transações é bloqueada (`RESTRICT`; ao contrário de `PROTECT`, permite excluir o usuário junto com todos os seus dados).
 
 ---
 
@@ -448,13 +448,13 @@ erDiagram
 
 Os componentes são declarados uma única vez em um bloco `<style type="text/tailwindcss">` no `base.html`, usando `@apply`.
 
-No Tailwind v4, `@apply` só aceita utilitários registrados. Por isso, as classes-base reaproveitadas por outras (`btn`, `badge` e `nav-link`) são declaradas com `@utility`. As demais ficam em `@layer components`, que permite seletores aninhados como `.table th`. O v4 também não tem `placeholder-slate-500`; o equivalente é `placeholder:text-slate-500`.
+No Tailwind v4, `@apply` só aceita utilitários registrados. Por isso, as classes-base reaproveitadas por outras (`btn`, `badge` e `nav-link`) são declaradas com `@utility`. As demais ficam em `@layer components`, que permite seletores aninhados como `.table th`. O v4 também não tem `placeholder-slate-500`; o equivalente é `placeholder:text-slate-500`. Para esconder o contorno padrão de foco usa-se `outline-hidden`, e não `outline-none`: no v4, `outline-none` remove o contorno também no modo de alto contraste (forced colors).
 
 ```html
 <style type="text/tailwindcss">
   /* Bases reutilizadas */
   @utility btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-violet-500/50 disabled:opacity-50;
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition focus:outline-hidden focus-visible:ring-2 focus-visible:ring-violet-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950 disabled:opacity-50;
   }
 
   @utility badge {
@@ -462,7 +462,7 @@ No Tailwind v4, `@apply` só aceita utilitários registrados. Por isso, as class
   }
 
   @utility nav-link {
-    @apply flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-400 transition hover:bg-slate-800 hover:text-white;
+    @apply flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-400 transition hover:bg-slate-800 hover:text-white focus:outline-hidden focus-visible:ring-2 focus-visible:ring-violet-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900;
   }
 
   @layer components {
@@ -471,10 +471,12 @@ No Tailwind v4, `@apply` só aceita utilitários registrados. Por isso, as class
     .btn-secondary { @apply btn border border-slate-700 bg-slate-800 text-slate-100 hover:bg-slate-700; }
     .btn-ghost { @apply btn text-slate-300 hover:bg-slate-800 hover:text-white; }
     .btn-danger { @apply btn bg-rose-600 text-white hover:bg-rose-500; }
+    /* Dentro de cards, o offset do anel de foco acompanha a superfície (slate-900). */
+    .card :is(.btn-primary, .btn-secondary, .btn-ghost, .btn-danger) { @apply focus-visible:ring-offset-slate-900; }
 
     /* Formulários */
     .form-label { @apply mb-1.5 block text-sm font-medium text-slate-300; }
-    .form-input { @apply w-full rounded-xl border border-slate-700 bg-slate-800/70 px-4 py-2.5 text-slate-100 placeholder:text-slate-500 transition focus:border-violet-500 focus:outline-none focus:ring-2 focus:ring-violet-500/30; }
+    .form-input { @apply w-full rounded-xl border border-slate-700 bg-slate-800/70 px-4 py-2.5 text-slate-100 placeholder:text-slate-500 transition focus:border-violet-500 focus:outline-hidden focus:ring-2 focus:ring-violet-500/30 aria-[invalid=true]:border-rose-500 aria-[invalid=true]:focus:border-rose-500 aria-[invalid=true]:focus:ring-rose-500/30; }
     .form-error { @apply mt-1 text-xs text-rose-400; }
     .form-help { @apply mt-1 text-xs text-slate-400; }
 
@@ -484,6 +486,8 @@ No Tailwind v4, `@apply` só aceita utilitários registrados. Por isso, as class
     /* Badges */
     .badge-income { @apply badge bg-emerald-500/10 text-emerald-400 ring-1 ring-emerald-500/30; }
     .badge-expense { @apply badge bg-rose-500/10 text-rose-400 ring-1 ring-rose-500/30; }
+    /* Neutro: rótulos que não são entrada nem saída (ex.: tipo de conta). */
+    .badge-neutral { @apply badge bg-slate-800 text-slate-300 ring-1 ring-slate-700; }
 
     /* Tabelas */
     .table { @apply w-full text-left text-sm; }
@@ -497,6 +501,10 @@ No Tailwind v4, `@apply` só aceita utilitários registrados. Por isso, as class
 </style>
 ```
 
+- **Badges**: `badge-income` e `badge-expense` para categorias/tipos de transação; `badge-neutral` para rótulos sem semântica de entrada/saída (por exemplo, o tipo de conta na listagem de contas). Não monte badges com utilitários soltos.
+- **Campo inválido**: o `form-input` fica com borda e anel de foco `rose` quando o widget tem `aria-invalid="true"`, que o próprio Django adiciona aos campos com erro. O Tailwind v4 não tem a variante `aria-invalid` embutida (só `aria-busy`, `aria-checked`, `aria-disabled`, `aria-expanded`, `aria-hidden`, `aria-pressed`, `aria-readonly`, `aria-required` e `aria-selected`), por isso usa-se a forma arbitrária `aria-[invalid=true]:`. O foco do campo inválido também fica `rose` (`aria-[invalid=true]:focus:border-rose-500 aria-[invalid=true]:focus:ring-rose-500/30`), com especificidade maior que o foco violeta padrão.
+- **Favicon**: definido no `<head>` do `base.html` como SVG inline em data URI (`<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,...">`, com `<`, `>`, `#` e espaços codificados): quadrado arredondado com o gradiente principal (`violet-600` → `indigo-600` → `cyan-700`) e um "F" branco desenhado como `path` (não depende de fonte). Sem arquivo estático nem dependência nova.
+
 ### 9.5 Padrões de botões
 
 | Variante | Uso |
@@ -506,7 +514,9 @@ No Tailwind v4, `@apply` só aceita utilitários registrados. Por isso, as class
 | `btn-ghost` | Ações discretas em tabelas (Editar) e itens de menu |
 | `btn-danger` | Ações destrutivas (Excluir, Confirmar exclusão) |
 
-Regra: no máximo **um** `btn-primary` por tela/formulário. Barras de navegação (navbar pública e sidebar) nunca usam `btn-primary`, para não competir com a ação principal da página.
+Regra: no máximo **um** `btn-primary` por tela/formulário. Barras de navegação (navbar pública e sidebar) nunca usam `btn-primary`, para não competir com a ação principal da página. Nas listagens, o `btn-primary` de criação ("Nova conta", "Nova transação"...) fica no cabeçalho da página e é sempre visível, inclusive com a lista vazia; o estado vazio nunca usa `btn-primary` (ver 9.9).
+
+Foco: todo elemento interativo tem anel de foco visível pelo teclado: `focus-visible:ring-2 focus-visible:ring-violet-400` sólido, com `ring-offset-2` na cor do fundo (`ring-offset-slate-950` na página, `ring-offset-slate-900` na sidebar e dentro de cards), o que garante contraste ≥ 3:1 inclusive sobre o `btn-primary`, o `btn-danger` e o `nav-link-active`. `btn` e `nav-link` já o incluem (o `nav-link` com offset `slate-900`, pois só existe na sidebar; o botão de fechar da sidebar acrescenta `focus-visible:ring-offset-slate-900`). Links soltos (logos, links de rodapé de login/cadastro) usam `rounded-lg focus:outline-hidden` + o mesmo anel. O `form-input` mantém o seu foco próprio (`focus:border-violet-500 focus:ring-2 focus:ring-violet-500/30`). Com a sidebar aberta no mobile, o conteúdo recebe `inert`, então o Tab não sai do menu.
 
 ### 9.6 Inputs e forms
 
@@ -515,6 +525,8 @@ Regra: no máximo **um** `btn-primary` por tela/formulário. Barras de navegaç�
 - Formulários ficam dentro de um `card`, com largura máxima `max-w-xl` e espaçamento `space-y-5`.
 - Rodapé do formulário: `flex justify-end gap-3` com `btn-secondary` (Cancelar) e `btn-primary` (Salvar).
 - Erros gerais (`non_field_errors`) exibidos no topo do form em caixa `rounded-xl bg-rose-500/10 text-rose-300 p-3`.
+- Campos com erro: o Django renderiza o widget com `aria-invalid="true"` e `aria-describedby` apontando para `<auto_id>_error`; o `form-input` pinta a borda e o anel de foco em `rose` (ver 9.4).
+- Pré-requisitos: se um select obrigatório não tem opções (por exemplo, "Nova transação" sem nenhuma conta ou categoria), o formulário mostra no topo um aviso `rounded-xl bg-amber-500/10 p-3 text-sm text-amber-300 ring-1 ring-amber-500/30` com links simples (sublinhados, com anel de foco) para "Nova conta"/"Nova categoria". Links, e não botões, para manter um único `btn-primary`.
 
 ### 9.7 Grids e layout
 
@@ -525,6 +537,7 @@ Regra: no máximo **um** `btn-primary` por tela/formulário. Barras de navegaç�
 | Conteúdo dois blocos | `grid grid-cols-1 lg:grid-cols-3 gap-6` (principal `lg:col-span-2`) |
 | Cabeçalho de página | `flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6` |
 | Listas em mobile | Tabela com `overflow-x-auto` dentro de `card` |
+| Texto do usuário (nomes, descrições) | `wrap-anywhere`, nunca `truncate` nem `whitespace-nowrap` (em tabelas, `break-words` não reduz a largura mínima da célula) |
 
 ### 9.8 Menus
 
@@ -535,8 +548,9 @@ Regra: no máximo **um** `btn-primary` por tela/formulário. Barras de navegaç�
 ### 9.9 Feedback e estados
 
 - **Mensagens** (`_messages.html`): alertas no topo do conteúdo; sucesso `bg-emerald-500/10 text-emerald-300 ring-1 ring-emerald-500/30`, erro `bg-rose-500/10 text-rose-300 ring-1 ring-rose-500/30`, aviso `bg-amber-500/10 text-amber-300 ring-1 ring-amber-500/30` e informação `bg-cyan-500/10 text-cyan-300 ring-1 ring-cyan-500/30`. A cor segue `message.level_tag`.
-- **Estado vazio** (`_empty_state.html`): ícone, texto explicativo e `btn-primary` para criar o primeiro registro.
-- **Valores**: entradas em `text-emerald-400` com prefixo `+`, saídas em `text-rose-400` com prefixo `−`, sempre `tabular-nums`.
+- **Estado vazio** (`_empty_state.html`): ícone, texto explicativo e, opcionalmente (`button_label` + `button_url`), um botão `btn-secondary` para criar o primeiro registro. Não é `btn-primary` porque a ação principal da tela já está no cabeçalho; nas listagens, em que o cabeçalho já tem a mesma ação, o estado vazio fica sem botão. O rótulo do botão é o mesmo da ação no cabeçalho/atalhos: "Nova conta", "Nova categoria", "Nova transação". No dashboard, sem transações: com conta e categoria, "Nova transação"; com conta mas sem categoria, "Nova categoria" (o formulário de transação seria inutilizável); sem conta, só o texto (o bloco "Minhas contas" já oferece "Nova conta").
+- **Valores**: entradas em `text-emerald-400` com prefixo `+`, saídas em `text-rose-400` com prefixo `−`, sempre `tabular-nums`. Valor exatamente zero em totais (entradas/saídas do mês, totais filtrados, resultado do mês) aparece neutro, `R$ 0,00` sem sinal, em `text-slate-100` (ou herdando a cor, no card de saldo). Valores negativos continuam com `−` e `cut:"-"`.
+- **Ação "Ver todas" no topo de uma tabela**: `btn-ghost` compacto (`px-3 py-1.5`) com `-mr-3`, para o texto alinhar com a borda direita da coluna "Valor" sem cortar o anel de foco.
 
 ---
 
@@ -660,7 +674,7 @@ Regra: no máximo **um** `btn-primary` por tela/formulário. Barras de navegaç�
 | R4 | Tailwind via CDN não é otimizado para produção | Médio | Aceitável para o escopo inicial; reavaliar build com Tailwind CLI na sprint de Docker/deploy. |
 | R5 | Inconsistência visual entre telas | Médio | Componentes centralizados em `base.html` e partials; revisão visual ao fim de cada sprint. |
 | R6 | Saldo incorreto por dados duplicados | Médio | Saldo calculado dinamicamente (sem campo persistido). |
-| R7 | Exclusão acidental de dados | Médio | Páginas de confirmação; `PROTECT` em categorias. |
+| R7 | Exclusão acidental de dados | Médio | Páginas de confirmação; `RESTRICT` em categorias. |
 | R8 | Limitação de concorrência do SQLite | Baixo | Uso pessoal com baixa concorrência; adequado ao escopo. |
 | R9 | Escopo crescer além do solicitado | Médio | Seguir estritamente este PRD; novas ideias vão para backlog futuro. |
 | R10 | Ausência de testes nas sprints iniciais | Médio | Testes manuais com checklist ao fim de cada sprint; testes automatizados na sprint 9. |

@@ -4,6 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block title %}Finanpy{% endblock %}</title>
+  {# Favicon inline (SVG em data URI): gradiente principal violet -> indigo -> cyan com um "F" branco. Evita o 404 de /favicon.ico sem arquivo estático. #}
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%3E%3Cdefs%3E%3ClinearGradient%20id='g'%20x1='0'%20y1='0'%20x2='1'%20y2='1'%3E%3Cstop%20offset='0'%20stop-color='%237c3aed'/%3E%3Cstop%20offset='.5'%20stop-color='%234f46e5'/%3E%3Cstop%20offset='1'%20stop-color='%230e7490'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width='32'%20height='32'%20rx='8'%20fill='url(%23g)'/%3E%3Cpath%20d='M11%207h11v4h-7v3.5h6v4h-6V25h-4z'%20fill='%23fff'/%3E%3C/svg%3E">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,11 +20,19 @@
       @utility. Por isso btn, badge e nav-link (reaproveitadas por outras
       classes) são @utility; as demais ficam em @layer components, onde
       seletores aninhados como ".table th" são permitidos.
+      Foco: outline-hidden (e não outline-none, que no v4 remove o contorno
+      também no modo de alto contraste) + anel violet-400 sólido com offset
+      (contraste >= 3:1). O offset tem a cor do fundo: slate-950 na página e
+      slate-900 na sidebar (nav-link).
+      Campo inválido: o Django marca o widget com aria-invalid="true" quando
+      há erros. O v4 não tem a variante aria-invalid embutida (só busy,
+      checked, disabled, expanded, hidden, pressed, readonly, required e
+      selected), então usamos a forma arbitrária aria-[invalid=true]:.
     */
 
     /* Bases reutilizadas */
     @utility btn {
-      @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-violet-500/50 disabled:opacity-50;
+      @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition focus:outline-hidden focus-visible:ring-2 focus-visible:ring-violet-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950 disabled:opacity-50;
     }
 
     @utility badge {
@@ -30,7 +40,7 @@
     }
 
     @utility nav-link {
-      @apply flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-400 transition hover:bg-slate-800 hover:text-white;
+      @apply flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-400 transition hover:bg-slate-800 hover:text-white focus:outline-hidden focus-visible:ring-2 focus-visible:ring-violet-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900;
     }
 
     @layer components {
@@ -39,10 +49,12 @@
       .btn-secondary { @apply btn border border-slate-700 bg-slate-800 text-slate-100 hover:bg-slate-700; }
       .btn-ghost { @apply btn text-slate-300 hover:bg-slate-800 hover:text-white; }
       .btn-danger { @apply btn bg-rose-600 text-white hover:bg-rose-500; }
+      /* Dentro de cards, o offset do anel de foco acompanha a superfície (slate-900). */
+      .card :is(.btn-primary, .btn-secondary, .btn-ghost, .btn-danger) { @apply focus-visible:ring-offset-slate-900; }
 
       /* Formulários */
       .form-label { @apply mb-1.5 block text-sm font-medium text-slate-300; }
-      .form-input { @apply w-full rounded-xl border border-slate-700 bg-slate-800/70 px-4 py-2.5 text-slate-100 placeholder:text-slate-500 transition focus:border-violet-500 focus:outline-none focus:ring-2 focus:ring-violet-500/30; }
+      .form-input { @apply w-full rounded-xl border border-slate-700 bg-slate-800/70 px-4 py-2.5 text-slate-100 placeholder:text-slate-500 transition focus:border-violet-500 focus:outline-hidden focus:ring-2 focus:ring-violet-500/30 aria-[invalid=true]:border-rose-500 aria-[invalid=true]:focus:border-rose-500 aria-[invalid=true]:focus:ring-rose-500/30; }
       .form-error { @apply mt-1 text-xs text-rose-400; }
       .form-help { @apply mt-1 text-xs text-slate-400; }
 
@@ -52,6 +64,8 @@
       /* Badges */
       .badge-income { @apply badge bg-emerald-500/10 text-emerald-400 ring-1 ring-emerald-500/30; }
       .badge-expense { @apply badge bg-rose-500/10 text-rose-400 ring-1 ring-rose-500/30; }
+      /* Neutro: rótulos que não são entrada nem saída (ex.: tipo de conta). */
+      .badge-neutral { @apply badge bg-slate-800 text-slate-300 ring-1 ring-slate-700; }
 
       /* Tabelas */
       .table { @apply w-full text-left text-sm; }

@@ -45,7 +45,7 @@ class SignUpForm(StyledFormMixin, UserCreationForm):
         }
         error_messages = {
             'email': {
-                'unique': 'Já existe uma conta com este e-mail.',
+                'unique': 'Já existe um usuário com este e-mail.',
             },
         }
 
@@ -55,6 +55,11 @@ class SignUpForm(StyledFormMixin, UserCreationForm):
         self.fields['last_name'].required = True
         self.fields['first_name'].widget.attrs['autofocus'] = True
         self.fields['email'].widget.attrs.pop('autofocus', None)
+        self.fields['first_name'].widget.attrs['autocomplete'] = 'given-name'
+        self.fields['last_name'].widget.attrs['autocomplete'] = 'family-name'
+        self.fields['email'].widget.attrs['autocomplete'] = 'email'
+        self.fields['password1'].widget.attrs['autocomplete'] = 'new-password'
+        self.fields['password2'].widget.attrs['autocomplete'] = 'new-password'
         self.fields['password1'].label = 'Senha'
         self.fields['password2'].label = 'Confirmação de senha'
 

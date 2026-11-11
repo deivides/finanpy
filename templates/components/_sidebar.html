@@ -16,8 +16,8 @@
 {% url 'logout' as logout_url %}
 {% with current=request.resolver_match.url_name|default:'' %}
   <div class="flex items-center justify-between gap-2 px-5 py-5">
-    <a href="{{ dashboard_url }}" class="bg-gradient-to-r from-violet-400 to-cyan-400 bg-clip-text text-2xl font-bold text-transparent">Finanpy</a>
-    <button type="button" id="sidebar-close" class="btn-ghost px-2.5 lg:hidden" aria-label="Fechar menu" aria-controls="sidebar">
+    <a href="{{ dashboard_url }}" class="rounded-lg bg-gradient-to-r from-violet-400 to-cyan-400 bg-clip-text text-2xl font-bold text-transparent focus:outline-hidden focus-visible:ring-2 focus-visible:ring-violet-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900">Finanpy</a>
+    <button type="button" id="sidebar-close" class="btn-ghost px-2.5 focus-visible:ring-offset-slate-900 lg:hidden" aria-label="Fechar menu" aria-controls="sidebar">
       <svg class="size-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
       </svg>

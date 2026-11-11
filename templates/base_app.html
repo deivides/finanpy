@@ -10,10 +10,10 @@
     {# Fundo escurecido atrás da sidebar aberta no mobile. #}
     <div id="sidebar-backdrop" class="fixed inset-0 z-30 bg-slate-950/70 backdrop-blur-sm lg:hidden" hidden></div>
 
-    <div class="flex min-w-0 flex-1 flex-col lg:pl-64">
+    <div id="app-content" class="flex min-w-0 flex-1 flex-col lg:pl-64">
       <header class="sticky top-0 z-20 flex items-center justify-between border-b border-slate-800 bg-slate-950/70 px-4 py-3 backdrop-blur lg:hidden">
         {% url 'dashboard' as dashboard_url %}
-        <a href="{{ dashboard_url }}" class="bg-gradient-to-r from-violet-400 to-cyan-400 bg-clip-text text-xl font-bold text-transparent">Finanpy</a>
+        <a href="{{ dashboard_url }}" class="rounded-lg bg-gradient-to-r from-violet-400 to-cyan-400 bg-clip-text text-xl font-bold text-transparent focus:outline-hidden focus-visible:ring-2 focus-visible:ring-violet-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950">Finanpy</a>
         <button type="button" id="sidebar-open" class="btn-ghost px-2.5" aria-label="Abrir menu" aria-controls="sidebar" aria-expanded="false">
           <svg class="size-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
@@ -30,18 +30,20 @@
     </div>
   </div>
 
-  {# Abre/fecha a sidebar no mobile: data-open na sidebar, hidden no fundo e aria-expanded no botão. #}
+  {# Abre/fecha a sidebar no mobile: data-open na sidebar, hidden no fundo, aria-expanded no botão e inert no conteúdo (o Tab não sai da sidebar aberta). #}
   <script>
     (function () {
       var sidebar = document.getElementById('sidebar');
       var backdrop = document.getElementById('sidebar-backdrop');
       var openButton = document.getElementById('sidebar-open');
       var closeButton = document.getElementById('sidebar-close');
-      if (!sidebar || !backdrop || !openButton) return;
+      var content = document.getElementById('app-content');
+      if (!sidebar || !backdrop || !openButton || !content) return;
 
       function setOpen(open) {
         sidebar.toggleAttribute('data-open', open);
         backdrop.hidden = !open;
+        content.inert = open;
         openButton.setAttribute('aria-expanded', String(open));
         if (open && closeButton) closeButton.focus();
       }

@@ -21,6 +21,7 @@ finanpy
 ├── manage.py
 ├── README.md
 ├── requirements.txt
+├── ruff.toml          # PEP 8 lint configuration (ruff)
 └── PRD.md             # product requirements document
 ```
 

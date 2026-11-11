@@ -2,16 +2,21 @@
 
 ## Prerequisites
 
-- Python 3 installed.
+- Python 3 installed (the project uses Python 3.14).
+- Git.
 
 ## Installation
 
 ```bash
+# clone the repository
+git clone <repository-url> finanpy
+cd finanpy
+
 # create the virtual environment
 python -m venv .venv
 
-# activate (Windows)
-.venv\Scripts\activate
+# activate (Windows PowerShell)
+.venv\Scripts\Activate.ps1
 
 # activate (Linux/macOS)
 source .venv/bin/activate
@@ -20,17 +25,39 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
+On Linux/macOS, use `python3` instead of `python` if `python` is not available.
+
 ## Running
 
 ```bash
 # apply migrations
 python manage.py migrate
 
+# create an admin user (optional)
+python manage.py createsuperuser
+
 # start the development server
 python manage.py runserver
 ```
 
 The application is available at `http://127.0.0.1:8000/` and the admin at `http://127.0.0.1:8000/admin/`.
+
+## Tests
+
+```bash
+python manage.py test                                   # all tests
+python manage.py test accounts                          # one app
+python manage.py test accounts.tests.SomeTest.test_x    # single test
+```
+
+## Lint (PEP 8)
+
+`ruff` is a development tool and is not listed in `requirements.txt`. The configuration is in `ruff.toml` at the project root (line length 79, rules `E`, `W`, `F`, `I` and `Q` with single quotes).
+
+```bash
+pip install ruff
+ruff check .
+```
 
 ## Useful commands
 
@@ -39,7 +66,9 @@ The application is available at `http://127.0.0.1:8000/` and the admin at `http:
 | `python manage.py makemigrations <app>` | Generate migrations for an app |
 | `python manage.py migrate` | Apply migrations |
 | `python manage.py createsuperuser` | Create an admin user |
-| `pip freeze > requirements.txt` | Update the dependency list |
+| `python manage.py test` | Run the automated tests |
+| `ruff check .` | Check PEP 8, imports and quotes |
+| `pip freeze > requirements.txt` | Update the dependency list (do not include `ruff`) |
 
 ## Files ignored by git
 

@@ -6,14 +6,12 @@
   {% url 'transaction_create' as transaction_create_url %}
   {% url 'transaction_list' as transaction_list_url %}
   <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
-    <div>
+    <div class="min-w-0">
       <h1 class="text-2xl md:text-3xl font-bold text-slate-100">Transações</h1>
       <p class="mt-1 text-sm md:text-base text-slate-400">Acompanhe e filtre suas entradas e saídas.</p>
     </div>
-    {# Sem nenhuma transação (e sem filtro), o botão do estado vazio é o único btn-primary da tela. #}
-    {% if transactions or current_month or current_type %}
-      <a href="{{ transaction_create_url }}" class="btn-primary self-start sm:self-auto">Nova transação</a>
-    {% endif %}
+    {# Único btn-primary da tela, sempre visível; o estado vazio não repete a ação. #}
+    <a href="{{ transaction_create_url }}" class="btn-primary shrink-0 self-start sm:self-auto">Nova transação</a>
   </div>
 
   {# Filtros (GET): sempre visíveis, para o usuário poder limpar um filtro sem resultados. #}
@@ -40,17 +38,29 @@
   {# Totais de todo o resultado filtrado (não só da página atual). #}
   <div class="mb-6 grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
     <section class="card" aria-labelledby="total-income-title">
-      <h3 id="total-income-title" class="text-sm font-medium text-slate-400 uppercase tracking-wide">Entradas</h3>
-      <p class="mt-1 break-words text-2xl md:text-3xl font-bold tabular-nums text-emerald-400">+R$ {{ total_income|floatformat:2 }}</p>
+      <h2 id="total-income-title" class="text-sm font-medium text-slate-400 uppercase tracking-wide">Entradas</h2>
+      {# Valor zero fica neutro (slate-100, sem sinal). #}
+      {% if total_income %}
+        <p class="mt-1 break-words text-2xl md:text-3xl font-bold tabular-nums text-emerald-400">+R$ {{ total_income|floatformat:"2g" }}</p>
+      {% else %}
+        <p class="mt-1 break-words text-2xl md:text-3xl font-bold tabular-nums text-slate-100">R$ {{ total_income|floatformat:"2g" }}</p>
+      {% endif %}
     </section>
     <section class="card" aria-labelledby="total-expense-title">
-      <h3 id="total-expense-title" class="text-sm font-medium text-slate-400 uppercase tracking-wide">Saídas</h3>
-      <p class="mt-1 break-words text-2xl md:text-3xl font-bold tabular-nums text-rose-400">−R$ {{ total_expense|floatformat:2 }}</p>
+      <h2 id="total-expense-title" class="text-sm font-medium text-slate-400 uppercase tracking-wide">Saídas</h2>
+      {% if total_expense %}
+        <p class="mt-1 break-words text-2xl md:text-3xl font-bold tabular-nums text-rose-400">−R$ {{ total_expense|floatformat:"2g" }}</p>
+      {% else %}
+        <p class="mt-1 break-words text-2xl md:text-3xl font-bold tabular-nums text-slate-100">R$ {{ total_expense|floatformat:"2g" }}</p>
+      {% endif %}
     </section>
   </div>
 
   {% if transactions %}
-    {# relative: prende os .sr-only (position: absolute) ao recorte do overflow-x-auto. #}
+    {% comment %}
+      relative: prende os .sr-only (position: absolute) ao recorte do overflow-x-auto.
+      Texto do usuário usa wrap-anywhere: break-words não reduz a largura mínima de uma célula.
+    {% endcomment %}
     <div class="card relative overflow-x-auto p-0 md:p-0">
       <table class="table">
         <thead>
@@ -68,19 +78,19 @@
             <tr>
               <td class="hidden whitespace-nowrap tabular-nums md:table-cell">{{ transaction.date|date:"d/m/Y" }}</td>
               <td class="min-w-24 pl-4 pr-2 sm:min-w-40 sm:px-4">
-                <span class="break-words font-medium text-slate-100">{{ transaction.description }}</span>
+                <span class="wrap-anywhere font-medium text-slate-100">{{ transaction.description }}</span>
                 {# Colunas ocultas viram uma linha aqui: a data abaixo de md; categoria e conta abaixo de xl. #}
-                <span class="mt-0.5 block text-xs text-slate-400 xl:hidden"><span class="tabular-nums md:hidden">{{ transaction.date|date:"d/m/Y" }} · </span>{{ transaction.category.name }} · {{ transaction.account.name }}</span>
+                <span class="mt-0.5 block wrap-anywhere text-xs text-slate-400 xl:hidden"><span class="tabular-nums md:hidden">{{ transaction.date|date:"d/m/Y" }} · </span>{{ transaction.category.name }} · {{ transaction.account.name }}</span>
               </td>
-              <td class="hidden xl:table-cell">
-                <span class="whitespace-nowrap {% if transaction.transaction_type == 'income' %}badge-income{% else %}badge-expense{% endif %}">{{ transaction.category.name }}</span>
+              <td class="hidden min-w-28 xl:table-cell">
+                <span class="wrap-anywhere rounded-md {% if transaction.transaction_type == 'income' %}badge-income{% else %}badge-expense{% endif %}">{{ transaction.category.name }}</span>
               </td>
-              <td class="hidden whitespace-nowrap xl:table-cell">{{ transaction.account.name }}</td>
+              <td class="hidden min-w-28 wrap-anywhere xl:table-cell">{{ transaction.account.name }}</td>
               <td class="whitespace-nowrap px-2 text-right font-semibold tabular-nums sm:px-4">
                 {% if transaction.transaction_type == 'income' %}
-                  <span class="text-emerald-400">+R$ {{ transaction.amount|floatformat:2 }}</span>
+                  <span class="text-emerald-400">+R$ {{ transaction.amount|floatformat:"2g" }}</span>
                 {% else %}
-                  <span class="text-rose-400">−R$ {{ transaction.amount|floatformat:2 }}</span>
+                  <span class="text-rose-400">−R$ {{ transaction.amount|floatformat:"2g" }}</span>
                 {% endif %}
                 <span class="sr-only">({{ transaction.get_transaction_type_display }})</span>
               </td>
@@ -101,10 +111,9 @@
   {% else %}
     <div class="card">
       {% if current_month or current_type %}
-        {# Com filtro ativo, o btn-primary já está no cabeçalho. #}
-        {% include 'components/_empty_state.html' with text='Nenhuma transação encontrada.' %}
+        {% include 'components/_empty_state.html' with text='Nenhuma transação encontrada para os filtros selecionados.' %}
       {% else %}
-        {% include 'components/_empty_state.html' with text='Nenhuma transação encontrada.' button_label='Nova transação' button_url=transaction_create_url %}
+        {% include 'components/_empty_state.html' with text='Você ainda não registrou nenhuma transação.' %}
       {% endif %}
     </div>
   {% endif %}

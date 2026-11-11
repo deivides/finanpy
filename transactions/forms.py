@@ -17,6 +17,14 @@ AMOUNT_MIN = '0.01'
 AMOUNT_MAX = '9999999999.99'
 
 
+class CategoryChoiceField(forms.ModelChoiceField):
+    # Shows the type next to each option, e.g. 'Mercado (Saída)'. Uses the
+    # category's own column, so no extra query is made per option.
+    # Category.__str__ stays the plain name because it is used elsewhere.
+    def label_from_instance(self, obj):
+        return f'{obj.name} ({obj.get_category_type_display()})'
+
+
 class TransactionForm(StyledFormMixin, forms.ModelForm):
     def __init__(self, *args, user=None, **kwargs):
         # `user` is keyword-only, so it never reaches ModelForm.__init__.
@@ -48,6 +56,9 @@ class TransactionForm(StyledFormMixin, forms.ModelForm):
             'account',
             'category',
         )
+        field_classes = {
+            'category': CategoryChoiceField,
+        }
         labels = {
             'description': 'Descrição',
             'amount': 'Valor',

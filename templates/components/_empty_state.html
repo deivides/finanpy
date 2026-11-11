@@ -1,8 +1,11 @@
 {% comment %}
   Estado vazio (PRD 9.9). Uso:
   {% url 'account_create' as account_create_url %}
-  {% include 'components/_empty_state.html' with text='Você ainda não tem contas.' button_label='Nova conta' button_url=account_create_url %}
-  O botão só aparece quando button_label e button_url são informados.
+  {% include 'components/_empty_state.html' with text='Você ainda não cadastrou nenhuma conta.' button_label='Nova conta' button_url=account_create_url %}
+  O botão só aparece quando button_label e button_url são informados. Ele é btn-secondary
+  (PRD 9.5): o único btn-primary da tela fica no cabeçalho da página, sempre visível.
+  Não passe o botão quando a mesma ação já estiver no cabeçalho logo acima.
+  O rótulo repete o do cabeçalho/atalho: "Nova conta", "Nova categoria", "Nova transação".
 {% endcomment %}
 <div class="flex flex-col items-center justify-center gap-4 px-4 py-12 text-center">
   <div class="flex size-12 items-center justify-center rounded-2xl bg-slate-800 text-slate-400 ring-1 ring-slate-700">
@@ -12,6 +15,6 @@
   </div>
   <p class="max-w-sm text-sm text-slate-400 md:text-base">{{ text }}</p>
   {% if button_label and button_url %}
-    <a href="{{ button_url }}" class="btn-primary">{{ button_label }}</a>
+    <a href="{{ button_url }}" class="btn-secondary">{{ button_label }}</a>
   {% endif %}
 </div>

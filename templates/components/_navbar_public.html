@@ -5,7 +5,7 @@
 {% url 'home' as home_url %}
 <header class="sticky top-0 z-30 border-b border-slate-800 bg-slate-950/70 backdrop-blur">
   <div class="mx-auto flex w-full max-w-7xl items-center justify-between gap-4 px-4 py-3 md:px-8">
-    <a href="{{ home_url }}" class="bg-gradient-to-r from-violet-400 to-cyan-400 bg-clip-text text-xl font-bold text-transparent md:text-2xl">Finanpy</a>
+    <a href="{{ home_url }}" class="rounded-lg bg-gradient-to-r from-violet-400 to-cyan-400 bg-clip-text text-xl font-bold text-transparent md:text-2xl focus:outline-hidden focus-visible:ring-2 focus-visible:ring-violet-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950">Finanpy</a>
     <nav class="flex items-center gap-2" aria-label="Acesso">
       {% if user.is_authenticated %}
         {% url 'dashboard' as dashboard_url %}

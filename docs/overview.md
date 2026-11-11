@@ -18,6 +18,8 @@ Installed dependencies (`requirements.txt`):
 - `sqlparse==0.6.1`
 - `tzdata==2026.6`
 
+Development tool (not in `requirements.txt`): `ruff`, the PEP 8 linter configured in `ruff.toml`.
+
 ## Project apps
 
 | App | Responsibility |
@@ -29,4 +31,4 @@ Installed dependencies (`requirements.txt`):
 | `categories` | Transaction categories |
 | `transactions` | Income and expense transactions |
 
-> Current state: Sprints 0–7 are implemented: custom user, profile, bank accounts (with computed balance), categories and transactions (CRUD, month/type filters, filtered totals, pagination). The dashboard is still a placeholder (Sprint 8); automated tests (Sprint 9) and Docker (Sprint 10) are pending.
+> Current state: Sprints 0–7 are implemented: custom user, profile, bank accounts (with computed balance), categories and transactions (CRUD, month/type filters, filtered totals, pagination). Sprint 8 is done: dashboard (total balance, month income/expenses/result, latest transactions, accounts), design system review and code review (`ruff check .` clean). Automated tests (Sprint 9) and Docker (Sprint 10) are pending.

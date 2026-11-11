@@ -4,7 +4,12 @@ from core.forms import StyledFormMixin
 
 from .models import Category
 
-DUPLICATE_CATEGORY_MESSAGE = 'Você já possui uma categoria com este nome e tipo.'
+DUPLICATE_CATEGORY_MESSAGE = (
+    'Você já possui uma categoria com este nome e tipo.'
+)
+TYPE_CHANGE_IN_USE_MESSAGE = (
+    'Não é possível alterar o tipo de uma categoria que possui transações.'
+)
 
 
 class CategoryForm(StyledFormMixin, forms.ModelForm):
@@ -36,4 +41,20 @@ class CategoryForm(StyledFormMixin, forms.ModelForm):
                 raise forms.ValidationError(
                     DUPLICATE_CATEGORY_MESSAGE, code='duplicate_category'
                 )
+        # The transaction type must match the category type (RF21), so a
+        # category already in use cannot switch type. ModelForm only copies
+        # cleaned_data to the instance after clean(), so instance still
+        # holds the stored type here.
+        if (
+            self.instance.pk
+            and category_type
+            and category_type != self.instance.category_type
+            and self.instance.transactions.exists()
+        ):
+            self.add_error(
+                'category_type',
+                forms.ValidationError(
+                    TYPE_CHANGE_IN_USE_MESSAGE, code='category_in_use'
+                ),
+            )
         return cleaned_data
