@@ -50,6 +50,16 @@ python manage.py test accounts                          # one app
 python manage.py test accounts.tests.SomeTest.test_x    # single test
 ```
 
+### Coverage
+
+`coverage` is a development tool and is not listed in `requirements.txt`. The configuration is in `.coveragerc` at the project root (branch coverage; `.venv`, migrations, `manage.py`, `core/asgi.py` and `core/wsgi.py` are omitted). The minimum coverage defined in the PRD is 80%.
+
+```bash
+pip install coverage
+coverage run manage.py test
+coverage report -m
+```
+
 ## Lint (PEP 8)
 
 `ruff` is a development tool and is not listed in `requirements.txt`. The configuration is in `ruff.toml` at the project root (line length 79, rules `E`, `W`, `F`, `I` and `Q` with single quotes).
@@ -67,9 +77,11 @@ ruff check .
 | `python manage.py migrate` | Apply migrations |
 | `python manage.py createsuperuser` | Create an admin user |
 | `python manage.py test` | Run the automated tests |
+| `coverage run manage.py test` | Run the tests and measure coverage |
+| `coverage report -m` | Show the coverage report with the missing lines |
 | `ruff check .` | Check PEP 8, imports and quotes |
-| `pip freeze > requirements.txt` | Update the dependency list (do not include `ruff`) |
+| `pip freeze > requirements.txt` | Update the dependency list (do not include `ruff` or `coverage`) |
 
 ## Files ignored by git
 
-The `.gitignore` already ignores, among others: `.venv/`, `__pycache__/`, `*.pyc`, `db.sqlite3` and `.env`.
+The `.gitignore` already ignores, among others: `.venv/`, `__pycache__/`, `*.pyc`, `db.sqlite3`, `.env`, `.coverage` and `htmlcov/`.

@@ -18,6 +18,7 @@ finanpy
 ├── docs/              # this documentation
 ├── templates/         # project templates (base, home, dashboard, one folder per app)
 │   └── components/    # partials
+├── .coveragerc        # test coverage configuration (coverage)
 ├── manage.py
 ├── README.md
 ├── requirements.txt

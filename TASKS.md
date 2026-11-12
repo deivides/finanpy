@@ -311,39 +311,39 @@
 
 ### Sprint 9 — Testes automatizados
 
-- [ ] **9.1 Testes de `users`**
-  - [ ] 9.1.1 `UserManager.create_user` cria usuário com e-mail normalizado.
-  - [ ] 9.1.2 `create_user` sem e-mail levanta `ValueError`.
-  - [ ] 9.1.3 `create_superuser` define `is_staff` e `is_superuser`.
-  - [ ] 9.1.4 Cadastro válido cria usuário, autentica e redireciona ao dashboard.
-  - [ ] 9.1.5 Cadastro com e-mail duplicado retorna erro no form.
-  - [ ] 9.1.6 Login por e-mail funciona; login inválido exibe erro.
-  - [ ] 9.1.7 Logout via POST redireciona para a home.
-- [ ] **9.2 Testes de `profiles`**
-  - [ ] 9.2.1 Signal cria `Profile` ao criar `User`.
-  - [ ] 9.2.2 Edição de perfil atualiza `User` e `Profile`.
-- [ ] **9.3 Testes de `accounts`**
-  - [ ] 9.3.1 Cálculo de `balance` sem transações retorna o saldo inicial.
-  - [ ] 9.3.2 Cálculo de `balance` com entradas e saídas.
-  - [ ] 9.3.3 CRUD via views com usuário autenticado.
-  - [ ] 9.3.4 Acesso a conta de outro usuário retorna 404.
-- [ ] **9.4 Testes de `categories`**
-  - [ ] 9.4.1 Restrição de duplicidade por usuário/nome/tipo.
-  - [ ] 9.4.2 Exclusão de categoria com transações é bloqueada.
-  - [ ] 9.4.3 Isolamento entre usuários.
-- [ ] **9.5 Testes de `transactions`**
-  - [ ] 9.5.1 Form rejeita valor menor ou igual a zero.
-  - [ ] 9.5.2 Form rejeita categoria incompatível com o tipo.
-  - [ ] 9.5.3 Form só lista contas e categorias do usuário.
-  - [ ] 9.5.4 Filtros por mês e tipo retornam os registros corretos.
-  - [ ] 9.5.5 Isolamento entre usuários.
-- [ ] **9.6 Testes do dashboard e home**
-  - [ ] 9.6.1 Home responde 200 para anônimos.
-  - [ ] 9.6.2 Dashboard redireciona anônimos ao login.
-  - [ ] 9.6.3 Totais do mês e saldo total calculados corretamente.
-- [ ] **9.7 Cobertura**
-  - [ ] 9.7.1 Instalar `coverage` e medir cobertura (`coverage run manage.py test`).
-  - [ ] 9.7.2 Atingir cobertura mínima de 80%.
+- [X] **9.1 Testes de `users`**
+  - [X] 9.1.1 `UserManager.create_user` cria usuário com e-mail normalizado.
+  - [X] 9.1.2 `create_user` sem e-mail levanta `ValueError`.
+  - [X] 9.1.3 `create_superuser` define `is_staff` e `is_superuser`.
+  - [X] 9.1.4 Cadastro válido cria usuário, autentica e redireciona ao dashboard.
+  - [X] 9.1.5 Cadastro com e-mail duplicado retorna erro no form.
+  - [X] 9.1.6 Login por e-mail funciona; login inválido exibe erro.
+  - [X] 9.1.7 Logout via POST redireciona para a home.
+- [X] **9.2 Testes de `profiles`**
+  - [X] 9.2.1 Signal cria `Profile` ao criar `User`.
+  - [X] 9.2.2 Edição de perfil atualiza `User` e `Profile`.
+- [X] **9.3 Testes de `accounts`**
+  - [X] 9.3.1 Cálculo de `balance` sem transações retorna o saldo inicial.
+  - [X] 9.3.2 Cálculo de `balance` com entradas e saídas.
+  - [X] 9.3.3 CRUD via views com usuário autenticado.
+  - [X] 9.3.4 Acesso a conta de outro usuário retorna 404.
+- [X] **9.4 Testes de `categories`**
+  - [X] 9.4.1 Restrição de duplicidade por usuário/nome/tipo.
+  - [X] 9.4.2 Exclusão de categoria com transações é bloqueada.
+  - [X] 9.4.3 Isolamento entre usuários.
+- [X] **9.5 Testes de `transactions`**
+  - [X] 9.5.1 Form rejeita valor menor ou igual a zero.
+  - [X] 9.5.2 Form rejeita categoria incompatível com o tipo.
+  - [X] 9.5.3 Form só lista contas e categorias do usuário.
+  - [X] 9.5.4 Filtros por mês e tipo retornam os registros corretos.
+  - [X] 9.5.5 Isolamento entre usuários.
+- [X] **9.6 Testes do dashboard e home**
+  - [X] 9.6.1 Home responde 200 para anônimos.
+  - [X] 9.6.2 Dashboard redireciona anônimos ao login.
+  - [X] 9.6.3 Totais do mês e saldo total calculados corretamente.
+- [X] **9.7 Cobertura**
+  - [X] 9.7.1 Instalar `coverage` e medir cobertura (`coverage run manage.py test`).
+  - [X] 9.7.2 Atingir cobertura mínima de 80%.
 
 ### Sprint 10 — Docker
 

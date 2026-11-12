@@ -55,6 +55,16 @@ python manage.py test                 # todos os testes
 python manage.py test accounts        # testes de um app
 ```
 
+### Cobertura de testes
+
+O `coverage` é uma ferramenta de desenvolvimento e não faz parte do `requirements.txt`. A configuração está em `.coveragerc` e a cobertura mínima definida no PRD é de 80%.
+
+```bash
+pip install coverage
+coverage run manage.py test
+coverage report -m
+```
+
 ### Lint (PEP 8)
 
 O `ruff` é uma ferramenta de desenvolvimento e não faz parte do `requirements.txt`. A configuração está em `ruff.toml` (linhas de até 79 caracteres, ordem de imports e aspas simples).
